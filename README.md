@@ -24,7 +24,7 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 ## Execution :
 
-Debian : g++ -o prog main.cpp -lcurl -lgd -ljsoncpp -I/home/raphael/json/include
+Debian : g++ -o prog_debian main.cpp -lcurl -lgd -ljsoncpp -I/home/raphael/json/include
 
 
-compilation buildroot : ~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog -lcurl -lgd -lstdc++fs
+compilation buildroot : ~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lcurl -lgd -lstdc++fs
