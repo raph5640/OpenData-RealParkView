@@ -58,7 +58,7 @@ void create_histogram(const string& filename, const vector<string>& noms, const 
 
     int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte et les axes
 
-    // Dessiner les barres de l'histogramme
+    //Dessin des barres de l'histogramme
     for (size_t i = 0; i < dispo.size(); i++) {
         int pourcentage = (100 * dispo[i]) / max[i];
         int bar_height = (image_height * pourcentage) / 100;
@@ -66,14 +66,14 @@ void create_histogram(const string& filename, const vector<string>& noms, const 
 
         gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i+1) * bar_width, image_height, color);
 
-        // Ajoutez le texte pour le nom du parking au-dessus de chaque barre
+        //Ajout du texte pour le nom du parking au-dessus de chaque barre
         string label = noms[i] + " (" + to_string(pourcentage) + "%)";
         gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
     }
 
-    // Dessiner les axes
-    gdImageLine(im, 0, image_height - 1, image_width, image_height - 1, black);  // Axe des x
-    gdImageLine(im, 0, 0, 0, image_height, black);  // Axe des y
+    //Dessin des axes
+    gdImageLine(im, 0, image_height - 1, image_width, image_height - 1, black);  //Axe des x
+    gdImageLine(im, 0, 0, 0, image_height, black);  //Axe des y
 
     FILE* out = fopen(filename.c_str(), "wb");
     gdImagePng(im, out);
