@@ -116,7 +116,7 @@ int main() {
     }
 
 
-    create_histogram("histogram.png", noms, dispo, max);
+    create_histogram("histogram_pourcentage_disponibilité.png", noms, dispo, max);
 
     return 0;
 }
