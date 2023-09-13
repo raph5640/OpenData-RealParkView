@@ -5,7 +5,7 @@ https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/
 
 Deux fichiers sont proposés .json et .csv. 
 
-1) Utilisation de l'URL stable pour le fichier .csv : 
+1) Utilisation de l'URL stable pour le fichier .json : 
 utiliser cette URL : https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false
 
 2) Téléchargement du fichier à partir de l'URL: 
