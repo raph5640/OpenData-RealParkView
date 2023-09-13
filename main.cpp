@@ -14,7 +14,7 @@ const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/dis
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
 
 void download_json() {
-    string command = "wget \"" + JSON_URL + "\" -O " + LOCAL_JSON_FILENAME;
+    string command = "wget --no-check-certificate \"" + JSON_URL + "\" -O " + LOCAL_JSON_FILENAME;
     int result = system(command.c_str());
 
     if (result) {
@@ -93,7 +93,7 @@ int main() {
     }
 
 
-    create_histogram("histogram_pourcentage_disponibilité.png", noms, dispo, max);
+    create_histogram("pourcentage_place_disponible.png", noms, dispo, max);
 
     return 0;
 }
