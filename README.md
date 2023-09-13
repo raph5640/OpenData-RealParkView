@@ -25,7 +25,7 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 ## Execution :
 ### Debian compilation :
-`g++ -o prog_debian main.cpp -lcurl -lgd -ljsoncpp -I/home/raphael/json/include`
+`g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
 
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
@@ -33,7 +33,7 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 3) ajouter la bibliotheque gd : BR2_PACKAGE_GD
 4) Assurez-vous que Enable C++ support est sélectionné/coché.
 
-5) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lcurl -lgd -lstdc++fs`
+5) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
 
 6) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande a l'intérieur de la machine buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 
