@@ -9,7 +9,7 @@ Deux fichiers sont proposés .json et .csv.
 utiliser cette URL : https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false
 
 2) Téléchargement du fichier à partir de l'URL: 
-On va utiliser curl ou des bibliothèques C++ comme libcurl pour télécharger le fichier CSV
+On utilise wget pour télécharger le fichier .json localement.
 
 3) Parser le fichier .JSON
 On parse le fichier pour extraire les données necessaires 
