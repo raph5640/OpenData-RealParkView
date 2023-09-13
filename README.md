@@ -24,7 +24,7 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 ## Execution :
 
-g++ -o prog main.cpp -lcurl -lgd -ljsoncpp -I/home/raphael/json/include
+Debian : g++ -o prog main.cpp -lcurl -lgd -ljsoncpp -I/home/raphael/json/include
 ./prog
 
 
