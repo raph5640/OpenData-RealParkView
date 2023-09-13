@@ -1,7 +1,6 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <curl/curl.h>
 #include <gd.h>
 #include <nlohmann/json.hpp>
 #include <vector>
@@ -14,37 +13,15 @@ using namespace std;
 const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
 
-// Fonction pour télécharger le fichier JSON
-size_t write_data(void* ptr, size_t size, size_t nmemb, FILE* stream) {
-    return fwrite(ptr, size, nmemb, stream);
-}
-
 void download_json() {
-    CURL* curl;
-    CURLcode res;
-    FILE* fp;
+    string command = "wget \"" + JSON_URL + "\" -O " + LOCAL_JSON_FILENAME;
+    int result = system(command.c_str());
 
-    curl = curl_easy_init();
-    if (curl) {
-        fp = fopen(LOCAL_JSON_FILENAME.c_str(), "wb");
-        if (!fp) {
-            cerr << "Erreur d'ouverture du fichier " << LOCAL_JSON_FILENAME << endl;
-            return;
-        }
-
-        curl_easy_setopt(curl, CURLOPT_URL, JSON_URL.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
-
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK) {
-            cerr << "Erreur curl: " << curl_easy_strerror(res) << endl;
-        }
-
-        fclose(fp);
-        curl_easy_cleanup(curl);
+    if (result) {
+        cerr << "Erreur lors du téléchargement du fichier avec wget. Code d'erreur: " << result << endl;
     }
 }
+
 
 // Fonction pour créer un histogramme
 void create_histogram(const string& filename, const vector<string>& noms, const vector<int>& dispo, const vector<int>& max) {
