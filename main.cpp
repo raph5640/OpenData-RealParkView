@@ -96,9 +96,9 @@ int main() {
     vector<int> dispo, max;
 
     for (auto& record : jsonObj) {
-        if (record["fields"].contains("libelle") && !record["fields"]["nom"].is_null()) {
+        if (record["fields"].contains("libelle") && !record["fields"]["libelle"].is_null()) {
             noms.push_back(record["fields"]["libelle"].get<string>());
-        } else {
+        }else {
             noms.push_back("Inconnu");
         }
 
