@@ -51,9 +51,9 @@ Compiler votre programme :
 3) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
 4) Assurez-vous que `Enable C++ support` est sélectionné/coché.
 
-5) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
+5) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
 
-6) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande a l'intérieur de la machine buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+6) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 
 #### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
 
