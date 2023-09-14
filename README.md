@@ -29,6 +29,9 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 
 ## Execution :
+
+Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
+
 ### Debian compilation :
 
 Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` ET/OU `sudo apt install ljsoncpp` (au choix)
