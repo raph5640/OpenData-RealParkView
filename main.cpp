@@ -21,7 +21,7 @@ void download_json() {
         cerr << "Erreur lors du téléchargement du fichier avec wget. Code d'erreur: " << result << endl;
     }
 }
-
+//une fonction qui découpe une chaîne en plusieurs lignes
 vector<string> split_into_lines(const string& str) {
     vector<string> result;
     stringstream ss(str);
