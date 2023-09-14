@@ -30,18 +30,20 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 ## Execution :
 ### Debian compilation :
+
+Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` ET/OU `sudo apt install ljsoncpp` (au choix)
+
 `g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
 
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
-2) ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
-3) Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` ET/OU `sudo apt install ljsoncpp` (au choix)
-4) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
-5) Assurez-vous que `Enable C++ support` est sélectionné/coché.
+2) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
+3) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
+4) Assurez-vous que `Enable C++ support` est sélectionné/coché.
 
-6) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
+5) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
 
-7) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande a l'intérieur de la machine buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+6) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande a l'intérieur de la machine buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 
 #### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
 
