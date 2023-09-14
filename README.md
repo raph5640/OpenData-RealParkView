@@ -33,6 +33,9 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` ET/OU `sudo apt install ljsoncpp` (au choix)
 
+Compiler votre programme :
+`cd OpenData/`
+
 `g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
 
 ### QEMU Compilation (buildroot)
