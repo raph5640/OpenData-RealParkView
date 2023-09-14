@@ -20,7 +20,8 @@ On génére un graphique a partir des données récupéré dans une structure av
 ## OBJECTIF : 
 
 histogramme : calculer le pourcentage de disponibilité de chaque parking
-![parking](https://github.com/raph5640/OpenData/assets/140059828/4dc396e7-e0dd-45f5-9912-b56439c1378f)
+![parking (1)](https://github.com/raph5640/OpenData/assets/140059828/fc0a29e3-2781-432e-848f-5e6db388ec73)
+
 
 
 ## Execution :
