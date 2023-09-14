@@ -34,10 +34,10 @@ histogramme : calculer le pourcentage de disponibilité de chaque parking
 
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
-2) ajouter la bibliotheque json-for-modern-cpp : BR2_PACKAGE_JSON_FOR_MODERN_CPP
+2) ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
 3) Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` et un `sudo apt install ljsoncpp`
-4) ajouter la bibliotheque gd : BR2_PACKAGE_GD -> Puis activer gdtopng (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
-5) Assurez-vous que Enable C++ support est sélectionné/coché.
+4) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
+5) Assurez-vous que `Enable C++ support` est sélectionné/coché.
 
 6) compilation buildroot : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
 
