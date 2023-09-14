@@ -43,6 +43,8 @@ Compiler votre programme :
 
 `g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
 
+`./prog_debian`
+
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
 2) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
