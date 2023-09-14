@@ -6,28 +6,29 @@
 #include <vector>
 #include <cmath>
 #include <gdfonts.h>
-
+//Auteur : Raphael De Oliveira
 
 using namespace std;
 
 const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
 
+//Fonction qui va récuperer le fichier .json en passant par la commande system wget (curl ne fonctionne pas dans buildroot)
 void download_json() {
     string command = "wget --no-check-certificate \"" + JSON_URL + "\" -O " + LOCAL_JSON_FILENAME;
     int result = system(command.c_str());
 
     if (result) {
-        cerr << "Erreur lors du téléchargement du fichier avec wget. Code d'erreur: " << result << endl;
+        cerr << "Erreur lors du téléchargement du fichier avec wget. L'erreur: " << result << endl;
     }
 }
 //une fonction qui découpe une chaîne en plusieurs lignes
-vector<string> split_into_lines(const string& str) {
+vector<string> split_into_lines(const string& chaine) {
     vector<string> result;
-    stringstream ss(str);
+    stringstream chaine_stream(chaine);
     string word;
 
-    while (getline(ss, word, ' ')) { //decoupe la chaine a chaque espace
+    while (getline(chaine_stream, word, ' ')) { //decoupe la chaine a chaque espace
         result.push_back(word);
     }
 
@@ -50,10 +51,19 @@ void create_histogram(const string& filename, const vector<string>& noms, const 
     for (size_t i = 0; i < dispo.size(); i++) {
         int pourcentage = (100 * dispo[i]) / max[i];
         int bar_height = (image_height * pourcentage) / 100;
+        const int RELIEF_OFFSET = 10;
         bar_height = min(bar_height, MAX_BAR_HEIGHT);
-        int color = gdImageColorAllocate(im, rand() % 255, rand() % 255, rand() % 255);
-
-        gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i+1) * bar_width, image_height, color);
+        int rouge = rand() % 255;
+        int vert = rand() % 255;
+        int bleu = rand() % 255;
+        int color = gdImageColorAllocate(im, rouge, vert, bleu);
+        int color_relief = gdImageColorAllocate(im, rouge-30, vert, bleu);
+        // Dessine le rectangle principal
+        gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i + 1) * bar_width - RELIEF_OFFSET, image_height, color);
+        //On dessine le reflief 3D
+        for (int offset = 1; offset <= RELIEF_OFFSET; offset++) {
+            gdImageFilledRectangle(im,(i + 1) * bar_width - offset,image_height - bar_height - offset + RELIEF_OFFSET,(i + 1) * bar_width - offset + 1,image_height - offset + RELIEF_OFFSET,color_relief);
+        }
 
         string label = noms[i] + " (" + to_string(pourcentage) + "%)";
         if (pourcentage < 90) {     //Si le pourcentage du parking est inferieur a 90% on écrit son nom sur plusieurs ligne pour éviter les cheuvauchements du texte sur les autres barres suivantes
@@ -107,7 +117,6 @@ int main() {
             max.push_back(1);
         }
     }
-
 
     create_histogram("pourcentage_place_disponible.png", noms, dispo, max);
 
