@@ -39,11 +39,11 @@ Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour 
 Compiler votre programme :
 
 
-`cd OpenData/`
+1) Placez vous dans le repertoire OpenData : `cd OpenData/`
 
-`g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
+2) Compiler votre programme a partir du main.cpp en faisant l'edition de lien avec les biliotheques gd et json : `g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
 
-`./prog_debian`
+3) Lancer votre programme : `./prog_debian`
 
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
