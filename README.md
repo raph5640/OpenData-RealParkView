@@ -43,40 +43,47 @@ On génére un graphique a partir des données récupéré dans une structure av
 - **'Parking Plaza_evolution.png'** :  On voit 7 barre dans l'histogramme pour le fichier 'Parking Plaza_evolution.png' cela represente les 35 dernieres minutes. 18% correspond au taux de disponibilité du parking Plaza puis diminu a 17% un peu plus tard.
 ![evolution_parking3](https://github.com/raph5640/OpenData/assets/140059828/3b8c55dc-9bc5-423c-8146-e37d950ee749)
 
-## Compilation et éxécution :
+# Documentation Technique : OpenData Parking MEL
 
 Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
-### Debian compilation :
+## 1. Présentation du projet
 
-Telecharger et installer la nlohmann/json.hpp. C'est la bibliothèque JSON pour C++ par Niels Lohmann faites un `git clone https://github.com/nlohmann/json` ET/OU `sudo apt install ljsoncpp` (au choix)
+- **Fonction principale** : Ce programme vise à récupérer des données en temps réel sur les parkings depuis une URL spécifiée et à les afficher sous forme d'histogrammes. Les histogrammes montrent la disponibilité actuelle des parkings et l'évolution de la disponibilité pour un parking spécifique.
+- **Source des données** : https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false
 
-Compiler votre programme :
+## 2. Dépendances 
 
+- **libcurl** : Pour télécharger le fichier .json depuis l'URL
+- **nlohmann/json.hpp** : Une bibliothèque JSON pour C++ utilisée pour parser le fichier .json
+- **gd** : Bibliothèque pour la génération de graphiques.
 
-1) Placez vous dans le repertoire OpenData : `cd OpenData/`
+## 3. Compilation
 
-2) Compiler votre programme a partir du main.cpp en faisant l'edition de lien avec les biliotheques gd et json : `g++ -o prog_debian main.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include` ou `g++ -o prog_debian main.cpp -lgd -lcurl -ljsoncpp`
+### Debian:
 
-3) Lancer votre programme : `./prog_debian`
+1. Cloner le dépôt: `git clone https://github.com/raph5640/OpenData.git`
+2. Accéder au répertoire: `cd OpenData/`
+3. Télécharger et installer la dépendance JSON: `git clone https://github.com/nlohmann/json` ou `sudo apt install ljsoncpp`
+4. Compiler: `g++ -o prog_debian main.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`
+5. Exécuter: `./prog_debian`
 
-### QEMU Compilation (buildroot)
-1) Faire un `make xconfig`
-2) Assurez-vous que la bibliothèque `libcurl` est activée et construite pour votre cible dans Buildroot
-3) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
-4) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
-5) Assurez-vous que `Enable C++ support` est sélectionné/coché.
-6) Faire un `make`
+### Buildroot avec QEMU:
 
-7) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs`
+1. Lancer `make xconfig`
+2. Activez la bibliothèque `libcurl`.
+3. Ajoutez `json-for-modern-cpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP**
+4. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
+5. Cochez `Enable C++ support`.
+6. Lancez `make`.
+7. Pour la compilation croisée: `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs`
 
-8) Lancer votre machine build-root avec votre shell-script `./go` ou `./start_buildroot.sh`
+## 4. Transfert et Exécution sur Buildroot
 
-9) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+1. Démarrer Buildroot avec `./go` ou `./start_buildroot.sh`.
+2. Transférer prog_emu : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/` (À exécuter depuis Buildroot)
+3. Dans Buildroot, allez à **/root/** et exécutez `./prog_qemu`.
 
-#### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
+## 5. Annexes
 
-1)  Allez dans le répertoire /root/: `cd /root/`
-2)  Listez les fichiers pour voir si prog_qemu est bien présent : `ls`
-3)  Exécutez le programme  : `./prog_qemu`
-4)  si necessaire : `chmod +x prog_qemu`
+- **Images** : Des exemples d'images générées peuvent être consultées directement sur le dépôt GitHub.
