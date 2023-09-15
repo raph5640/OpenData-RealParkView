@@ -152,27 +152,27 @@ void collecte_donnees() {
     cout << "Téléchargement terminé avec libcurl. Le fichier " << LOCAL_JSON_FILENAME << " a été enregistré localement." << endl;
 
     ifstream jsonFile(LOCAL_JSON_FILENAME);
-    json jsonObj;
-    jsonFile >> jsonObj;
+    json data_obj;
+    jsonFile >> data_obj;
 
     vector<string> noms;
     vector<int> dispo, max;
-    //Boucle for pour parcourir l'objet jsonObj (On parse les données ici on récupére les donnée et on les stocks dans mes vectors et maps)
-    for (auto& record : jsonObj) {
-        if (record["fields"].contains("libelle") && !record["fields"]["libelle"].is_null()) {
-            noms.push_back(record["fields"]["libelle"].get<string>());
+    //Boucle for pour parcourir l'objet data_obj (On parse les données ici on récupére les donnée et on les stocks dans mes vectors et maps)
+    for (auto& element : data_obj) {
+        if (element["fields"].contains("libelle") && !element["fields"]["libelle"].is_null()) {
+            noms.push_back(element["fields"]["libelle"].get<string>());
         }else {
             noms.push_back("Inconnu");
         }
 
-        if (record["fields"].contains("dispo") && !record["fields"]["dispo"].is_null()) {
-            dispo.push_back(record["fields"]["dispo"].get<int>());
+        if (element["fields"].contains("dispo") && !element["fields"]["dispo"].is_null()) {
+            dispo.push_back(element["fields"]["dispo"].get<int>());
         } else {
             dispo.push_back(0);
         }
 
-        if (record["fields"].contains("max") && !record["fields"]["max"].is_null()) {
-            max.push_back(record["fields"]["max"].get<int>());
+        if (element["fields"].contains("max") && !element["fields"]["max"].is_null()) {
+            max.push_back(element["fields"]["max"].get<int>());
         } else {
             max.push_back(1);
         }
@@ -184,9 +184,9 @@ void collecte_donnees() {
     // Si le parking n'a pas encore été choisi, on en choisis un au hasard.
     if (parking_choisi.empty()) {
         vector<string> noms;
-        for (auto& record : jsonObj) {
-            if (record["fields"].contains("libelle") && !record["fields"]["libelle"].is_null()) {
-                noms.push_back(record["fields"]["libelle"].get<string>());
+        for (auto& element : data_obj) {
+            if (element["fields"].contains("libelle") && !element["fields"]["libelle"].is_null()) {
+                noms.push_back(element["fields"]["libelle"].get<string>());
             }
         }
         parking_choisi = noms[rand() % noms.size()];
@@ -194,11 +194,11 @@ void collecte_donnees() {
     }
 
     // Trouver les données pour le parking choisi et ajouter à evolution_data.
-    for (auto& record : jsonObj) {
-        if (record["fields"]["libelle"].get<string>() == parking_choisi) {
-            if (record["fields"].contains("dispo") && !record["fields"]["dispo"].is_null() && record["fields"].contains("max") && !record["fields"]["max"].is_null()) {
-                int dispo = record["fields"]["dispo"].get<int>();
-                int max = record["fields"]["max"].get<int>();
+    for (auto& element : data_obj) {
+        if (element["fields"]["libelle"].get<string>() == parking_choisi) {
+            if (element["fields"].contains("dispo") && !element["fields"]["dispo"].is_null() && element["fields"].contains("max") && !element["fields"]["max"].is_null()) {
+                int dispo = element["fields"]["dispo"].get<int>();
+                int max = element["fields"]["max"].get<int>();
                 int pourcentage = (100 * dispo) / max;
                 evolution_data.push_back(pourcentage);
             }
