@@ -80,10 +80,3 @@ Compiler votre programme :
 2)  Listez les fichiers pour voir si prog_qemu est bien présent : `ls`
 3)  Exécutez le programme  : `./prog_qemu`
 4)  si necessaire : `chmod +x prog_qemu`
-
-
-
-
-
-
-
