@@ -36,6 +36,10 @@ On génére un graphique a partir des données récupéré dans une structure av
 
 ![parking5](https://github.com/raph5640/OpenData/assets/140059828/fa265f8f-657a-4e08-ab75-4ef668ea252e)
 
+### Collecte de donnée en temps réel
+
+À chaque exécution du programme prog_qemu ou prog_debian, un parking est sélectionné aléatoirement dans la base de données. Nous traçons l'évolution du taux de disponibilité de ce parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 5 minutes, reflétant la disponibilité du parking à chaque intervalle.
+
 - **'Parking Plaza_evolution.png'** :  On voit 7 barre dans l'histogramme pour le fichier 'Parking Plaza_evolution.png' cela represente les 35 dernieres minutes. 18% correspond au taux de disponibilité du parking Plaza puis diminu a 17% un peu plus tard.
 ![evolution_parking3](https://github.com/raph5640/OpenData/assets/140059828/3b8c55dc-9bc5-423c-8146-e37d950ee749)
 
@@ -76,10 +80,6 @@ Compiler votre programme :
 2)  Listez les fichiers pour voir si prog_qemu est bien présent : `ls`
 3)  Exécutez le programme  : `./prog_qemu`
 4)  si necessaire : `chmod +x prog_qemu`
-
-# Collecte de donnée en temps réel
-
-À chaque exécution du programme prog_qemu ou prog_debian, un parking est sélectionné aléatoirement dans la base de données. Nous traçons l'évolution du taux de disponibilité de ce parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 5 minutes, reflétant la disponibilité du parking à chaque intervalle.
 
 
 
