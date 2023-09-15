@@ -1,6 +1,7 @@
 # OpenData
 
-![parking4](https://github.com/raph5640/OpenData/assets/140059828/0bf6a215-5f2c-401c-8026-aecb77ab8b35)
+![parking6](https://github.com/raph5640/OpenData/assets/140059828/6d3a7900-30b2-4740-8809-f76cad3799ef)
+
 
 Sujet choisi : Disponibilité temps réel des parkings MEL
 https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/
@@ -11,7 +12,7 @@ Deux fichiers sont proposés .json et .csv.
 utiliser cette URL : https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false
 
 2) Téléchargement du fichier à partir de l'URL: 
-On utilise wget pour télécharger le fichier .json localement.
+On utilise libcurl pour télécharger le fichier .json localement.
 
 3) Parser le fichier .JSON
 On parse le fichier pour extraire les données necessaires 
@@ -40,19 +41,20 @@ Compiler votre programme :
 
 1) Placez vous dans le repertoire OpenData : `cd OpenData/`
 
-2) Compiler votre programme a partir du main.cpp en faisant l'edition de lien avec les biliotheques gd et json : `g++ -o prog_debian main.cpp -lgd -ljsoncpp -I/home/raphael/json/include`
+2) Compiler votre programme a partir du main.cpp en faisant l'edition de lien avec les biliotheques gd et json : `g++ -o prog_debian main.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include` ou `g++ -o prog_debian main.cpp -lgd -lcurl -ljsoncpp`
 
 3) Lancer votre programme : `./prog_debian`
 
 ### QEMU Compilation (buildroot)
 1) faire un `make xconfig`
-2) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
-3) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
-4) Assurez-vous que `Enable C++ support` est sélectionné/coché.
+2) Assurez-vous que la bibliothèque `libcurl` est activée et construite pour votre cible dans Buildroot
+3) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
+4) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
+5) Assurez-vous que `Enable C++ support` est sélectionné/coché.
 
-5) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lstdc++fs`
+6) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs`
 
-6) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+7) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 
 #### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
 
