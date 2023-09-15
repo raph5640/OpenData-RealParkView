@@ -9,6 +9,9 @@
 #include <gdfonts.h>
 #include <curl/curl.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+
 
 //Auteur : Raphael De Oliveira
 
@@ -16,6 +19,8 @@ using namespace std;
 using json = nlohmann::json;
 const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
+const char* dirName = "Images_PNG";
+struct stat info;
 map<string, vector<pair<time_t, int>>> historique_disponibilites;
 string parking_choisi;
 vector<int> evolution_data;
@@ -178,7 +183,8 @@ void collecte_donnees() {
         }
     }
     //On crée un histogramme classique qui affiche le pourcentage de disponibilité de tout les parkings
-    create_histogram("pourcentage_place_disponible.png", noms, dispo, max);
+    create_histogram(dirName + string("/pourcentage_place_disponible.png"), noms, dispo, max);
+
 
     //Maintenant on va parsez les donnée pour crée l'histogramme evolutif du parking selectionné lors du lancement du programme
     // Si le parking n'a pas encore été choisi, on en choisis un au hasard.
@@ -205,11 +211,22 @@ void collecte_donnees() {
         }
     }
 
-    create_evolution_histogram(parking_choisi + "_evolution.png", evolution_data);
+    create_evolution_histogram(string(dirName) + "/" + parking_choisi + "_evolution.png", evolution_data);
+
 }
 
 
 int main() {
+
+    if (stat(dirName, &info) != 0) {
+        cout << "Création du répertoire : " << dirName << endl;
+        mkdir(dirName, 0755);  // 0755 est le mode d'accès standard pour un répertoire
+    } else if (info.st_mode & S_IFDIR) {  // Vérifie que c'est bien un répertoire
+        cout << "Le répertoire " << dirName << " existe déjà." << endl;
+    } else {
+        cerr << "Erreur: " << dirName << " n'est pas un répertoire." << endl;
+    }
+
     while (true) {
         collecte_donnees();
         cout << "Données collectées pour " << parking_choisi << "." << endl;
