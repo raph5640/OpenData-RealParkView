@@ -46,15 +46,18 @@ Compiler votre programme :
 3) Lancer votre programme : `./prog_debian`
 
 ### QEMU Compilation (buildroot)
-1) faire un `make xconfig`
+1) Faire un `make xconfig`
 2) Assurez-vous que la bibliothèque `libcurl` est activée et construite pour votre cible dans Buildroot
 3) Ajouter la bibliotheque `json-for-modern-cpp` : BR2_PACKAGE_JSON_FOR_MODERN_CPP
 4) Ajouter la bibliotheque `gd` : BR2_PACKAGE_GD -> Puis activer `gdtopng` (Pour la conversion de gd vers png afin de pouvoir générer une image .png)
 5) Assurez-vous que `Enable C++ support` est sélectionné/coché.
+6) Faire un `make`
 
-6) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs`
+7) **compilation croise pour buildroot depuis votre machine** (debian) : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs`
 
-7) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+8) Lancer votre machine build-root avec votre shell-script `./go` ou `./start_buildroot.sh`
+
+9) Transfert du prog_emu compilé sur la machine debian vers la machine buildroot avec la commande suivante qui **doit être éxécuté a l'intérieur de la machine buildroot** : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 
 #### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
 
