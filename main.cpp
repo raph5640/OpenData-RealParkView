@@ -25,22 +25,22 @@ size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE*
 //Fonction qui va récuperer le fichier .json en passant par curl
 void download_json() {
     CURL* curl;
-    FILE* fp;
+    FILE* fichier;
     CURLcode res;
 
     curl = curl_easy_init();
     if (curl) {
-        fp = fopen(LOCAL_JSON_FILENAME.c_str(), "wb");
+        fichier = fopen(LOCAL_JSON_FILENAME.c_str(), "wb");
         curl_easy_setopt(curl, CURLOPT_URL, JSON_URL.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, ecrire_data);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fichier);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Ignorer la vérification SSL (équivalent de l'option -k)
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             cerr << "Erreur lors du téléchargement avec la librairie cURL: " << curl_easy_strerror(res) << endl;
         }
         curl_easy_cleanup(curl);
-        fclose(fp);
+        fclose(fichier);
     }
 }
 
