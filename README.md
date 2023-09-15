@@ -39,7 +39,7 @@ On génére un graphique a partir des données récupéré dans une structure av
 - **'Parking Plaza_evolution.png'** :  On voit 7 barre dans l'histogramme pour le fichier 'Parking Plaza_evolution.png' cela represente les 35 dernieres minutes. 18% correspond au taux de disponibilité du parking Plaza puis diminu a 17% un peu plus tard.
 ![evolution_parking3](https://github.com/raph5640/OpenData/assets/140059828/3b8c55dc-9bc5-423c-8146-e37d950ee749)
 
-## Execution :
+## Compilation et éxécution :
 
 Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
