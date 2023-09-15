@@ -6,6 +6,8 @@
 #include <vector>
 #include <cmath>
 #include <gdfonts.h>
+#include <curl/curl.h>
+
 //Auteur : Raphael De Oliveira
 
 using namespace std;
@@ -13,15 +15,35 @@ using namespace std;
 const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
 
-//Fonction qui va récuperer le fichier .json en passant par la commande system wget (curl ne fonctionne pas dans buildroot)
-void download_json() {
-    string command = "wget --no-check-certificate \"" + JSON_URL + "\" -O " + LOCAL_JSON_FILENAME;
-    int result = system(command.c_str());
 
-    if (result) {
-        cerr << "Erreur lors du téléchargement du fichier avec wget. L'erreur: " << result << endl;
+//La fonction ecrire_data est une fonction de rappel que l'on fourni à cURL dans ma fonction download_json pour traiter les données à mesure qu'elles sont reçues du serveur.
+size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE* ptr_fichier_ecriture) {
+    size_t written = fwrite(ptr_donnee_recu, size, nombre_elem, ptr_fichier_ecriture);
+    return written;
+}
+
+//Fonction qui va récuperer le fichier .json en passant par curl
+void download_json() {
+    CURL* curl;
+    FILE* fp;
+    CURLcode res;
+
+    curl = curl_easy_init();
+    if (curl) {
+        fp = fopen(LOCAL_JSON_FILENAME.c_str(), "wb");
+        curl_easy_setopt(curl, CURLOPT_URL, JSON_URL.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, ecrire_data);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //Ignorer la vérification SSL (équivalent de l'option -k)
+        res = curl_easy_perform(curl);
+        if (res != CURLE_OK) {
+            cerr << "Erreur lors du téléchargement avec la librairie cURL: " << curl_easy_strerror(res) << endl;
+        }
+        curl_easy_cleanup(curl);
+        fclose(fp);
     }
 }
+
 //une fonction qui découpe une chaîne en plusieurs lignes
 vector<string> split_into_lines(const string& chaine) {
     vector<string> result;
@@ -89,7 +111,7 @@ using json = nlohmann::json;
 
 int main() {
     download_json();
-    cout << "Téléchargement terminé. Le fichier " << LOCAL_JSON_FILENAME << " a été enregistré localement." << endl;
+    cout << "Téléchargement terminé avec libcurl. Le fichier " << LOCAL_JSON_FILENAME << " a été enregistré localement." << endl;
 
     ifstream jsonFile(LOCAL_JSON_FILENAME);
     json jsonObj;
