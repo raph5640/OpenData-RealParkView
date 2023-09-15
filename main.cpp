@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <ctime>
+#include <iomanip>
 
 
 //Auteur : Raphael De Oliveira
@@ -146,8 +148,29 @@ void create_evolution_histogram(const string &filename, const vector<int> &data)
 
         gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i + 1) * bar_width, image_height, color);
 
+        //Ecris un label en haut a gauche de chaque barre indiquant le pourcentage
         string label = to_string(pourcentage) + "%";
         gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
+
+        // Modifiez ici pour tenir compte de l'écart de temps
+        time_t temps = time(nullptr) - (data.size() - 1 - i) * 20 * 60;  //Soustraire 20 minutes pour chaque position en arrière
+        tm* now = localtime(&temps);
+        stringstream chaine_date, chaine_heure;
+
+        // Formatage de la date
+        chaine_date << setw(2) << setfill('0') << now->tm_mday << "/"
+               << setw(2) << setfill('0') << (now->tm_mon + 1) << "/"
+               << (1900 + now->tm_year);
+        string dateStr = chaine_date.str();
+
+        // Formatage de l'heure
+        chaine_heure << setw(2) << setfill('0') << now->tm_hour << ":"
+               << setw(2) << setfill('0') << now->tm_min;
+        string heureStr = chaine_heure.str();
+
+        int textOffset = (bar_width - gdFontGetSmall()->w * (dateStr.length() + heureStr.length())) / 2;
+        gdImageString(im, gdFontGetSmall(), i * bar_width + textOffset, image_height - 30, (unsigned char*)dateStr.c_str(), black);
+        gdImageString(im, gdFontGetSmall(), i * bar_width + textOffset, image_height - 15, (unsigned char*)heureStr.c_str(), black);
     }
 
     FILE* out = fopen(filename.c_str(), "wb");
@@ -156,6 +179,8 @@ void create_evolution_histogram(const string &filename, const vector<int> &data)
 
     gdImageDestroy(im);
 }
+
+
 
 void sauvegarder_data_json(const string& nom_parking, const int dispo, const int max) {
     string filename = string(dataDirName) + "/" + nom_parking + ".json";
@@ -269,7 +294,7 @@ int main() {
     while (true) {
         collecte_donnees();
         cout << "Données collectées."<< endl;
-        sleep(300);  // Pause de 5 minutes
+        sleep(1200);  // Pause de 20 minutes
     }
     return 0;
 }
