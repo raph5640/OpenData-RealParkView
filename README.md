@@ -63,3 +63,13 @@ Compiler votre programme :
 9)  Exécutez le programme  : `./prog_qemu`
 10)  si necessaire : `chmod +x prog_qemu`
 
+# Collecte de donnée en temps réel
+
+À chaque exécution du programme prog_qemu ou prog_debian, un parking est sélectionné aléatoirement dans la base de données. Nous traçons l'évolution du taux de disponibilité de ce parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 5 minutes, reflétant la disponibilité du parking à chaque intervalle.
+
+## Demonstration : 
+
+On voit 3 barre dans l'histogramme pour le fichier 'Parking Plaza_evolution.png' cela represente les 15 dernieres minutes. 18% correspond au taux de disponibilité du parking Plaza.
+![evolution_parking1](https://github.com/raph5640/OpenData/assets/140059828/c1fffba4-a544-4e87-9f26-d86471428d65)
+
+
