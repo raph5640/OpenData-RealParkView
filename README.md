@@ -6,9 +6,11 @@
 
 - Il génère un histogramme montrant le pourcentage de disponibilité de tous les parkings.
 
-- En outre, à chaque démarrage, le programme choisit un parking aléatoirement et génère un histogramme évolutif montrant la disponibilité de ce parking particulier toutes les 5 minutes.
+- De plus, pour chaque parking, le programme génère un histogramme montrant le pourcentage de disponibilité et le sauvegarde dans le répertoire **Image_PNG**.
 
-**Ce programme est conçu pour visualiser la disponibilité des parkings en temps réel, offrant à la fois une vue d'ensemble et des détails spécifiques sur un parking sélectionné.**
+- Les données de disponibilité de chaque parking sont également sauvegardées dans un fichier JSON dans le répertoire **Data_parkings**.
+
+**Ce programme est conçu pour visualiser la disponibilité des parkings en temps réel, offrant à la fois une vue d'ensemble et des détails spécifiques sur tout les parkings.**
 ![parking6](https://github.com/raph5640/OpenData/assets/140059828/6d3a7900-30b2-4740-8809-f76cad3799ef)
 
 
@@ -38,7 +40,7 @@ On génére un graphique a partir des données récupéré dans une structure av
 
 ### Collecte de donnée en temps réel
 
-À chaque exécution du programme prog_qemu ou prog_debian, un parking est sélectionné aléatoirement dans la base de données. Nous traçons l'évolution du taux de disponibilité de ce parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 5 minutes, reflétant la disponibilité du parking à chaque intervalle.
+À chaque exécution du programme prog_qemu ou prog_debian, nous traçons l'évolution du taux de disponibilité de chaque parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 5 minutes, reflétant la disponibilité du parking à chaque intervalle dans le repertoire **Image_PNG**
 
 - **'Parking Plaza_evolution.png'** :  On voit 7 barre dans l'histogramme pour le fichier 'Parking Plaza_evolution.png' cela represente les 35 dernieres minutes. 18% correspond au taux de disponibilité du parking Plaza puis diminu a 17% un peu plus tard.
 ![evolution_parking3](https://github.com/raph5640/OpenData/assets/140059828/3b8c55dc-9bc5-423c-8146-e37d950ee749)
