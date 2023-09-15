@@ -40,7 +40,7 @@ On génére un graphique a partir des données récupéré dans une structure av
 
 ### Collecte de donnée en temps réel
 
-À chaque exécution du programme prog_qemu ou prog_debian, nous traçons l'évolution du taux de disponibilité de chaque parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est actualisé automatiquement toutes les 10 minutes, reflétant la disponibilité du parking à chaque intervalle dans le repertoire **Image_PNG**
+À chaque exécution du programme prog_qemu ou prog_debian, nous traçons l'évolution du taux de disponibilité de chaque parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est **actualisé automatiquement toutes les 10 minutes**, reflétant la disponibilité du parking à chaque intervalle dans le repertoire **Image_PNG**
 
 - **'Parking Plaza_evolution.png'** : 
 
