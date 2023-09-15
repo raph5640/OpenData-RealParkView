@@ -20,10 +20,10 @@ using json = nlohmann::json;
 const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
 const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
 const char* dirName = "Images_PNG";
-struct stat info;
-map<string, vector<pair<time_t, int>>> historique_disponibilites;
-string parking_choisi;
-vector<int> evolution_data;
+const char* dataDirName = "Data_parking";
+struct stat info; //pour la création du repertoire Image_PNG
+//map<string, vector<pair<time_t, int>>> historique_disponibilites;
+map<string, vector<int>> historique_disponibilites;
 
 //La fonction ecrire_data est une fonction de rappel que l'on fourni à cURL dans ma fonction download_json pour traiter les données à mesure qu'elles sont reçues du serveur.
 size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE* ptr_fichier_ecriture) {
@@ -31,7 +31,12 @@ size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE*
     return written;
 }
 
-//Fonction qui va récuperer le fichier .json en passant par curl
+/**
+ * @brief Télécharge un fichier JSON via cURL.
+ *
+ * La fonction utilise la bibliothèque cURL pour télécharger un
+ * fichier JSON à partir d'une URL spécifiée et le sauvegarde localement.
+ */
 void download_json() {
     CURL* curl;
     FILE* fichier;
@@ -152,6 +157,43 @@ void create_evolution_histogram(const string &filename, const vector<int> &data)
     gdImageDestroy(im);
 }
 
+void sauvegarder_data_json(const string& nom_parking, const int dispo, const int max) {
+    string filename = string(dataDirName) + "/" + nom_parking + ".json";
+    json j;
+
+    //Si le fichier existe déjà, on lit ses données
+    if (ifstream(filename)) {
+        ifstream infile(filename);
+        infile >> j;
+        infile.close();
+    }
+
+    //Ajout ou mise à jour des informations
+    j["dispo"] = dispo;
+    j["max"] = max;
+
+    //Sauvegarde des informations dans le fichier
+    ofstream outfile(filename);
+    outfile << j.dump(4);  //4 est le nombre d'espaces pour l'indentation
+    outfile.close();
+}
+/**
+ * @brief Collecte et traite les données de disponibilité des parkings à partir du fichier JSON.
+ *
+ * Cette fonction réalise les opérations suivantes :
+ * 1. Télécharge le fichier JSON à l'aide de libcurl.
+ * 2. Lit et parse le fichier JSON téléchargé pour extraire les informations pertinentes.
+ * 3. Remplit les vecteurs et les maps avec les données extraites.
+ * 4. Sauvegarde les informations pertinentes dans des fichiers JSON locaux.
+ * 5. Crée des histogrammes pour visualiser les données de disponibilité des parkings.
+ *
+ * @note Les vecteurs et les maps utilisés pour stocker les données sont globaux.
+ *
+ * @see download_json()
+ * @see sauvegarder_data_json()
+ * @see create_histogram()
+ * @see create_evolution_histogram()
+ */
 void collecte_donnees() {
     download_json();
     cout << "Téléchargement terminé avec libcurl. Le fichier " << LOCAL_JSON_FILENAME << " a été enregistré localement." << endl;
@@ -181,55 +223,52 @@ void collecte_donnees() {
         } else {
             max.push_back(1);
         }
+        if (element["fields"].contains("libelle") && element["fields"].contains("dispo") && element["fields"].contains("max")) {
+            string libelle = element["fields"]["libelle"].get<string>();
+            int dispo_actuelle = element["fields"]["dispo"].get<int>();
+            int max_actuel = element["fields"]["max"].get<int>();
+            int pourcentage = (100 * dispo_actuelle) / max_actuel;
+            historique_disponibilites[libelle].push_back(pourcentage);
+        }
+    }
+    //Ici on sauvegarde le noms les dispos de places et la taille max de chaque parking dans le fichier data
+    for (size_t i = 0; i < noms.size(); i++) {
+        sauvegarder_data_json(noms[i], dispo[i], max[i]);
     }
     //On crée un histogramme classique qui affiche le pourcentage de disponibilité de tout les parkings
     create_histogram(dirName + string("/pourcentage_place_disponible.png"), noms, dispo, max);
-
-
     //Maintenant on va parsez les donnée pour crée l'histogramme evolutif du parking selectionné lors du lancement du programme
-    // Si le parking n'a pas encore été choisi, on en choisis un au hasard.
-    if (parking_choisi.empty()) {
-        vector<string> noms;
-        for (auto& element : data_obj) {
-            if (element["fields"].contains("libelle") && !element["fields"]["libelle"].is_null()) {
-                noms.push_back(element["fields"]["libelle"].get<string>());
-            }
-        }
-        parking_choisi = noms[rand() % noms.size()];
-        cout << "Parking choisi pour le suivi : " << parking_choisi << endl;
+    for (auto& pair : historique_disponibilites) {
+        const string& nom_parking = pair.first;
+        const vector<int>& data = pair.second;
+        create_evolution_histogram(string(dirName) + "/" + nom_parking + "_evolution_taux_disponibilite.png", data);
     }
-
-    // Trouver les données pour le parking choisi et ajouter à evolution_data.
-    for (auto& element : data_obj) {
-        if (element["fields"]["libelle"].get<string>() == parking_choisi) {
-            if (element["fields"].contains("dispo") && !element["fields"]["dispo"].is_null() && element["fields"].contains("max") && !element["fields"]["max"].is_null()) {
-                int dispo = element["fields"]["dispo"].get<int>();
-                int max = element["fields"]["max"].get<int>();
-                int pourcentage = (100 * dispo) / max;
-                evolution_data.push_back(pourcentage);
-            }
-        }
-    }
-
-    create_evolution_histogram(string(dirName) + "/" + parking_choisi + "_evolution.png", evolution_data);
 
 }
 
 
 int main() {
-
+    //Création du repertoire Image_PNG pour stocker les images générés par le programme
     if (stat(dirName, &info) != 0) {
         cout << "Création du répertoire : " << dirName << endl;
-        mkdir(dirName, 0755);  // 0755 est le mode d'accès standard pour un répertoire
+        mkdir(dirName, 0755);  //0755 est le mode d'accès standard pour un répertoire
     } else if (info.st_mode & S_IFDIR) {  // Vérifie que c'est bien un répertoire
         cout << "Le répertoire " << dirName << " existe déjà." << endl;
     } else {
         cerr << "Erreur: " << dirName << " n'est pas un répertoire." << endl;
     }
-
+    //Création du repertoire data_parking ou stocker le vecteur evolution_data
+    if (stat(dataDirName, &info) != 0) {
+        cout << "Création du répertoire : " << dataDirName << endl;
+        mkdir(dataDirName, 0755);  //0755 est le mode d'accès standard pour un répertoire
+    } else if (info.st_mode & S_IFDIR) {  //Vérifie que c'est bien un répertoire
+        cout << "Le répertoire " << dataDirName << " existe déjà." << endl;
+    } else {
+        cerr << "Erreur: " << dataDirName << " n'est pas un répertoire." << endl;
+    }
     while (true) {
         collecte_donnees();
-        cout << "Données collectées pour " << parking_choisi << "." << endl;
+        cout << "Données collectées."<< endl;
         sleep(300);  // Pause de 5 minutes
     }
     return 0;
