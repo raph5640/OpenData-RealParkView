@@ -61,10 +61,10 @@ Compiler votre programme :
 
 #### Une fois dans la machine buildroot et le prog_emu transférer faire ceci :
 
-7)  Allez dans le répertoire /root/: `cd /root/`
-8)  Listez les fichiers pour voir si prog_qemu est bien présent : `ls`
-9)  Exécutez le programme  : `./prog_qemu`
-10)  si necessaire : `chmod +x prog_qemu`
+1)  Allez dans le répertoire /root/: `cd /root/`
+2)  Listez les fichiers pour voir si prog_qemu est bien présent : `ls`
+3)  Exécutez le programme  : `./prog_qemu`
+4)  si necessaire : `chmod +x prog_qemu`
 
 # Collecte de donnée en temps réel
 
