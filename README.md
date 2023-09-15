@@ -1,8 +1,11 @@
 # OpenData
 
 Le programme récupère régulièrement des données sur les parkings depuis une URL définie et les sauvegarde localement en tant que fichier JSON.
+
 Une fois le fichier téléchargé, le programme extrait des données pertinentes concernant le nom du parking, le nombre de places disponibles et la capacité maximale.
+
 Il génère un histogramme montrant le pourcentage de disponibilité de tous les parkings.
+
 En outre, à chaque démarrage, le programme choisit un parking aléatoirement et génère un histogramme évolutif montrant la disponibilité de ce parking particulier toutes les 5 minutes.
 
 **Ce programme est conçu pour visualiser la disponibilité des parkings en temps réel, offrant à la fois une vue d'ensemble et des détails spécifiques sur un parking sélectionné.**
