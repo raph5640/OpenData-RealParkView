@@ -4,4 +4,14 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += \
-        main.cpp
+        datacollector.cpp \
+        datamanager.cpp \
+        histogram.cpp \
+        main.cpp \
+        parking.cpp
+
+HEADERS += \
+    datacollector.h \
+    datamanager.h \
+    histogram.h \
+    parking.h
