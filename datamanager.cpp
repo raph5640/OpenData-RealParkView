@@ -25,7 +25,7 @@ void DataManager::download_json() {
         curl_easy_setopt(curl, CURLOPT_URL, JSON_URL.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, ecrire_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fichier);
-        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); // Ignorer la vérification SSL (équivalent de l'option -k)
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //On ignore la vérification SSL (équivalent de l'option -k)
         res = curl_easy_perform(curl);
         if (res != CURLE_OK) {
             cerr << "Erreur lors du téléchargement avec la librairie cURL: " << curl_easy_strerror(res) << endl;
@@ -42,12 +42,12 @@ void DataManager::update_data_and_store_history() {
     json data_obj;
     jsonFile >> data_obj;
 
-    // Obtenez la date et l'heure actuelles
+    // Obtention de la date et l'heure actuelles
     time_t temps = time(nullptr);
     tm* now = localtime(&temps);
     stringstream chaine_date, chaine_heure;
 
-    // Formatage de la date
+    //Formatage de la date
     chaine_date << setw(4) << setfill('0') << (1900 + now->tm_year) << "-"
                << setw(2) << setfill('0') << (now->tm_mon + 1) << "-"
                << setw(2) << setfill('0') << now->tm_mday;
@@ -59,7 +59,7 @@ void DataManager::update_data_and_store_history() {
                 << setw(2) << setfill('0') << now->tm_sec;
     string heureStr = chaine_heure.str();
 
-    // Stockez l'horodatage actuel dans le format souhaité
+    // Stock l'horodatage actuel dans le format souhaité
     string timestamp = dateStr + " " + heureStr;
 
     // Boucle for pour parcourir l'objet data_obj et collecter les données actuelles
@@ -108,7 +108,7 @@ void DataManager::update_data_and_store_history() {
             infile.close();
         }
 
-        // Ajoutez les données actuelles à l'historique existant
+        //AJoute les données actuelles à l'historique existant
         for (const HistoricalData& data : parkingData) {
             json historicalDataJSON;
 
