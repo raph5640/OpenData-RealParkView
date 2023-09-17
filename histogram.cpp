@@ -78,10 +78,32 @@ void Histogram::createHistogram(const string& filename, const vector<string>& no
 }
 
 
-void Histogram::createEvolutionHistogram(const string& filename, const vector<string>& timestamps, const vector<int>& data) {
+void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, const std::string& jsonFilePath) {
+    // Lire les données à partir du fichier JSON
+    json data;
+    std::ifstream jsonFile(jsonFilePath);
+    jsonFile >> data;
+    jsonFile.close();
+
+    std::vector<std::string> timestamps;
+    std::vector<int> availabilityHistory;
+    std::vector<int> maxValues;
+
+    for (const auto& item : data) {
+        if (item.contains("dispo") && item.contains("max") && item.contains("timestamp")) {
+            int availability = item["dispo"].get<int>();
+            int maxCapacity = item["max"].get<int>();
+            std::string timestamp = item["timestamp"].get<std::string>();
+
+            timestamps.push_back(timestamp);
+            availabilityHistory.push_back(availability);
+            maxValues.push_back(maxCapacity);
+        }
+    }
+
     const int image_width = 1600;
     const int image_height = 600;
-    const int bar_width = image_width / data.size();
+    const int bar_width = image_width / availabilityHistory.size();
     const int MAX_BAR_HEIGHT = image_height - 20;
 
     gdImagePtr im = gdImageCreateTrueColor(image_width, image_height);
@@ -90,8 +112,11 @@ void Histogram::createEvolutionHistogram(const string& filename, const vector<st
 
     int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte
 
-    for (size_t i = 0; i < data.size(); i++) {
-        int pourcentage = data[i];
+    for (size_t i = 0; i < availabilityHistory.size(); i++) {
+        int availability = availabilityHistory[i];
+        int maxCapacity = maxValues[i];
+        int pourcentage = (100 * availability) / maxCapacity; // Calcul du pourcentage
+
         int bar_height = (image_height * pourcentage) / 100;
         bar_height = min(bar_height, MAX_BAR_HEIGHT);
         int rouge = rand() % 255;
@@ -101,11 +126,9 @@ void Histogram::createEvolutionHistogram(const string& filename, const vector<st
 
         gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i + 1) * bar_width, image_height, color);
 
-        //Écris un label en haut à gauche de chaque barre indiquant le pourcentage
         string label = to_string(pourcentage) + "%";
         gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
 
-        //On obtient la date et l'heure à partir du timestamp
         string timestamp = timestamps[i];
         size_t pos = timestamp.find(' ');
         if (pos != string::npos) {

@@ -107,6 +107,8 @@ void DataManager::saveParkingData(const string& parkingName, int availability, i
     historique_disponibilites[parkingName].push_back({availability, maxCapacity, timestamp});
 }
 
+
+
 void DataManager::sauvegarder_data_json(const string& nom_parking, const int dispo, const int max, const string& timestamp) {
     string filename = string(dataDirName) + "/" + nom_parking + ".json";
     json j;
@@ -198,7 +200,7 @@ void DataManager::update_data_and_store_history() {
     }
 
     // Crée des histogrammes pour les données actuelles
-    Histogram::createEvolutionHistogram(string(dirName) + "/global_evolution_taux_disponibilite.png", timestamps, disponibilites);
+    //Histogram::createEvolutionHistogram(string(dirName) + "/global_evolution_taux_disponibilite.png", timestamps, disponibilites);
 }
 
 

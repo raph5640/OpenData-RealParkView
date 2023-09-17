@@ -22,7 +22,7 @@ using json = nlohmann::json;
 class Histogram {
 public:
     void createHistogram(const std::string& filename, const std::vector<std::string>& noms, const std::vector<int>& dispo, const std::vector<int>& max);
-    static void createEvolutionHistogram(const std::string& filename, const std::vector<std::string>& timestamps, const std::vector<int>& data);
+    static void createEvolutionHistogramFromJSON(const std::string& filename, const std::string& jsonFilePath);
 
 };
 

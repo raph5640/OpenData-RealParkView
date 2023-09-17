@@ -38,28 +38,20 @@ int main() {
     while (true) {
         dataManager.collectData();
 
-        // Obtention les noms, disponibilités et capacités depuis DataManager
+        // Obtention les noms des parkings depuis DataManager
         vector<string> noms = dataManager.getNoms();
-        vector<int> dispo = dataManager.getDispo();
-        vector<int> max = dataManager.getMax();
-
-        // Appele la fonction pour créer un histogramme de taux de disponibilité
-        Histogram histogram;
-        histogram.createHistogram("Images_PNG/histogramme_taux_disponibilité.png", noms, dispo, max);
 
         // Appele la fonction pour créer un histogramme d'évolution pour chaque parking
-        for (size_t i = 0; i < noms.size(); i++) {
-            vector<string> timestamps = dataManager.getTimestamps(noms[i]);
-            vector<int> availabilityHistory = dataManager.getAvailabilityHistory(noms[i]);
+        for (const string& nom : noms) {
+            // Construction du chemin complet du fichier JSON pour ce parking
+            string jsonFilePath = string(dataDirName) + "/" + nom + ".json";
 
-            // On a au moins 15 données pour créer l'histogramme
-            if (timestamps.size() > 0) {
-                size_t numDataPoints = min(size_t(15), timestamps.size());
-                vector<string> last15Timestamps(timestamps.end() - numDataPoints, timestamps.end());
-                vector<int> last15Availability(availabilityHistory.end() - numDataPoints, availabilityHistory.end());
-
-                string histogramFilename = "Images_PNG/histogramme_evolution_" + noms[i] + ".png";
-                histogram.createEvolutionHistogram(histogramFilename, last15Timestamps, last15Availability);
+            // On vérifie si le fichier JSON existe
+            if (access(jsonFilePath.c_str(), F_OK) != -1) {
+                string histogramFilename = "Images_PNG/histogramme_evolution_" + nom + ".png";
+                Histogram::createEvolutionHistogramFromJSON(histogramFilename, jsonFilePath);
+            } else {
+                cerr << "Le fichier JSON pour le parking '" << nom << "' n'existe pas." << endl;
             }
         }
 
