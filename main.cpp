@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <thread>
 #include "datamanager.h"
 #include "histogram.h"
 // Auteur : Raphael De Oliveira
