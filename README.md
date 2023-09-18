@@ -104,4 +104,4 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
 ## 5. Annexes
 
-- **Images** : Des exemples d'images générées peuvent être consultées directement sur le dépôt GitHub.
+- **Images** : Des exemples d'images générées peuvent être consultées directement sur le dépôt GitHub dans le repertoire Images_PNG.
