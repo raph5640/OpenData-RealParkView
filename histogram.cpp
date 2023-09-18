@@ -73,6 +73,17 @@ void Histogram::createHistogram(const string& filename) {
 
     int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte
 
+    // Fonction pour diviser une chaîne en lignes en utilisant des espaces comme séparateurs
+    auto split_into_lines = [](const string& s) {
+        istringstream iss(s);
+        vector<string> lines;
+        string line;
+        while (getline(iss, line, ' ')) {
+            lines.push_back(line);
+        }
+        return lines;
+    };
+
     //Dessin des barres de l'histogramme
     for (size_t i = 0; i < dispo.size(); i++) {
         int pourcentage = (100 * dispo[i]) / max[i];
@@ -83,26 +94,40 @@ void Histogram::createHistogram(const string& filename) {
         int vert = rand() % 255;
         int bleu = rand() % 255;
         int color = gdImageColorAllocate(im, rouge, vert, bleu);
-        int color_relief = gdImageColorAllocate(im, rouge-30, vert, bleu);
-        // Dessine le rectangle principal
-        gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i + 1) * bar_width - RELIEF_OFFSET, image_height, color);
-        //On dessine le reflief 3D
-        for (int offset = 1; offset <= RELIEF_OFFSET; offset++) {
-            gdImageFilledRectangle(im,(i + 1) * bar_width - offset,image_height - bar_height - offset + RELIEF_OFFSET,(i + 1) * bar_width - offset + 1,image_height - offset + RELIEF_OFFSET,color_relief);
+
+        //Assombrir légèrement la couleur principale
+        int darkenedRed = std::max(0, rouge - 30);
+        int darkenedGreen = std::max(0, vert - 30);
+        int darkenedBlue = std::max(0, bleu - 30);
+        int color_relief = gdImageColorAllocate(im, darkenedRed, darkenedGreen, darkenedBlue);
+
+        if (pourcentage >= 90) { // Si le pourcentage du parking est supérieur ou égal à 90%
+            // Dessine le nom du parking complet sur une ligne, suivi du pourcentage
+            string label = noms[i] + " (" + to_string(pourcentage) + "%)";
+            gdImageString(im, gdFontGetSmall(), i * bar_width + (bar_width - gdFontGetSmall()->w * label.length()) / 2, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
+        } else {
+            //Dessine le pourcentage au-dessus de la barre
+            string percentageLabel = "("+to_string(pourcentage) + "%)";
+            gdImageString(im, gdFontGetSmall(), i * bar_width + (bar_width - gdFontGetSmall()->w * percentageLabel.length()) / 2, image_height - bar_height - 15, (unsigned char*)percentageLabel.c_str(), black);
+
+            //Dessine le nom du parking en cascade en utilisant split_into_lines
+            auto lines = split_into_lines(noms[i]);
+            int offsetY = 0;
+            for (const auto& line : lines) {
+                gdImageString(im, gdFontGetSmall(), i * bar_width + (bar_width - gdFontGetSmall()->w * line.length()) / 2, image_height - bar_height - 30 - offsetY, (unsigned char*)line.c_str(), black);
+                offsetY += gdFontGetSmall()->h + 2;  // Ajuste l'espacement entre les lignes
+            }
         }
 
-        string label = noms[i] + " (" + to_string(pourcentage) + "%)";
-        if (pourcentage < 90) {     //Si le pourcentage du parking est inferieur a 90% on écrit son nom sur plusieurs ligne pour éviter les cheuvauchements du texte sur les autres barres suivantes
-            auto lines = split_into_lines(label);
-            int offsetY = (lines.size() - 1) * 12;
-            for (const auto& line : lines) {
-                gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15 - offsetY, (unsigned char*)line.c_str(), black);
-                offsetY -= 12;  //décrémente la valeur pour aller vers le haut
-            }
-        } else {  //sinon si le pourcentage est tres haut (>90) on considerer que si l'on affiche le nom entier du parking sur une ligne ca ne pose pas de probleme d'affichage et de lisibilité
-            gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
+        // Dessine le rectangle principal
+        gdImageFilledRectangle(im, i * bar_width, image_height - bar_height, (i + 1) * bar_width - RELIEF_OFFSET, image_height, color);
+
+        //On dessine le relief 3D
+        for (int offset = 1; offset <= RELIEF_OFFSET; offset++) {
+            gdImageFilledRectangle(im, (i + 1) * bar_width - offset, image_height - bar_height - offset + RELIEF_OFFSET, (i + 1) * bar_width - offset + 1, image_height - offset + RELIEF_OFFSET, color_relief);
         }
     }
+
 
     FILE* out = fopen(filename.c_str(), "wb");
     gdImagePng(im, out);
@@ -110,6 +135,7 @@ void Histogram::createHistogram(const string& filename) {
 
     gdImageDestroy(im);
 }
+
 
 
 void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, const std::string& jsonFilePath) {
