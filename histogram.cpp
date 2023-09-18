@@ -148,7 +148,7 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
     gdImageDestroy(im);
 }
 
-void Histogram::showGeneratedImages() const {
+void Histogram::showGeneratedImagesHTML() const {
     // Chemin du répertoire contenant les images .png générées
     const std::string path = "Images_PNG/";
 
@@ -195,9 +195,41 @@ void Histogram::showGeneratedImages() const {
     // Ouvre le fichier HTML avec le navigateur par défaut
     std::string commandXdgOpen = "xdg-open " + htmlFilename;
     system(commandXdgOpen.c_str());
-
-    // Ouvre le fichier HTML avec le navigateur links
-    std::string commandLinks = "links " + htmlFilename;
-    system(commandLinks.c_str());
 }
+/*
+void Histogram::showGeneratedImagesOnFramebuffer() const {
+    // Chemin du répertoire contenant les images .png générées
+    const std::string path = "Images_PNG/";
 
+    // Ouvre le framebuffer pour le rendu
+    Framebuffer fb("/dev/fb0");
+
+    // Ouvre le dossier et lisez chaque fichier
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(path.c_str())) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+            std::string filename = ent->d_name;
+
+            // Vérifi si le fichier est une image .png
+            if (filename.size() > 4 && filename.substr(filename.size() - 4) == ".png") {
+                Image img(path + filename);
+
+                // Dessinez l'image sur le framebuffer
+                fb.drawImage(img);
+
+                // Attendre un moment ou une entrée de l'utilisateur avant de passer à l'image suivante
+                // Par exemple, sleep(5); pour attendre 5 secondes
+            }
+        }
+        closedir(dir);
+    } else {
+        // Impossible d'ouvrir le répertoire
+        perror("");
+        return;
+    }
+
+    // Fermer le framebuffer à la fin
+    fb.close();
+}
+*/

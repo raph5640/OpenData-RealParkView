@@ -63,7 +63,7 @@ int main() {
                 cerr << "Le fichier JSON pour le parking '" << nom << "' n'existe pas." << endl;
             }
         }
-        histogram.showGeneratedImages();
+        histogram.showGeneratedImagesHTML();
         // On attend 10 minutes avant la prochaine collecte
         this_thread::sleep_for(std::chrono::seconds(600));
     }

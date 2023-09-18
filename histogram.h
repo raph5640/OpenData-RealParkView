@@ -48,7 +48,8 @@ public:
      * \brief Affiche les images générées.
      * Cette fonction génère un fichier HTML contenant toutes les images d'histogrammes créées et l'ouvre dans un navigateur par défaut.
      */
-    void showGeneratedImages() const;
+    void showGeneratedImagesHTML() const;
+    void showGeneratedImagesOnFramebuffer() const;
 
 };
 
