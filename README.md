@@ -87,7 +87,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 
 1. Lancer `make xconfig` depuis votre repertoire ou est installé buildroot `cd /home/raphael/buildroot-2023.08`
 2. Activez la bibliothèque `libcurl`.
-3. Activer la bibliotheque `links` (BR2_PACKAGE_LINKS)
+3. Activer le serveur http de busybox `httpd` en faisant un `make busybox-menuconfig`
 4. Ajoutez `json-for-modern-cpp` et `libjsoncpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON** 
 5. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
 6. Cochez `Enable C++ support`.
