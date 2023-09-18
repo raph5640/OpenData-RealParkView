@@ -100,11 +100,6 @@ void DataManager::update_data_and_store_history() {
                 ifstream infile(filename);
                 infile >> j;
                 infile.close();
-
-                //On vérifi si le fichier JSON existant a plus de 15 entrées, et si c'est le cas, supprime les plus anciennes
-                if (j.size() > MAX_HISTORY_SIZE) {
-                    j.erase(j.begin(), j.begin() + (j.size() - MAX_HISTORY_SIZE));
-                }
             }
 
             // Ajoute les données actuelles à l'historique existant
@@ -116,6 +111,11 @@ void DataManager::update_data_and_store_history() {
                 historicalDataJSON["timestamp"] = data.timestamp;
 
                 j.push_back(historicalDataJSON); // Ajoute l'objet JSON à l'objet JSON principal
+            }
+
+            // Si le nombre d'entrées dépasse MAX_HISTORY_SIZE, on supprime les plus anciennes
+            while (j.size() > MAX_HISTORY_SIZE) {
+                j.erase(j.begin());
             }
 
             // Sauvegarde des données dans le fichier
