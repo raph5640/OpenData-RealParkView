@@ -19,7 +19,8 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
 
 **Note:** À son lancement, le programme affiche des graphiques pour chaque parking. 
 
-![parking_html](https://github.com/raph5640/OpenData/assets/140059828/a01701fd-2abb-4656-aa22-c8c67635f6ec)
+![parking9](https://github.com/raph5640/OpenData/assets/140059828/4428276a-29b2-47ad-9fd6-fd123a797e99)
+
 
 ## Détails Techniques
 
