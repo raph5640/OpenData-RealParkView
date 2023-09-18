@@ -3,7 +3,7 @@
 using namespace std;
 namespace fs = std::filesystem;
 
-DataManager::DataManager() : MAX_HISTORY_SIZE(15) {
+DataManager::DataManager() : MAX_HISTORY_SIZE(13) {
     if (!fs::exists(dataDirName) || !fs::is_directory(dataDirName)) {
         fs::create_directory(dataDirName);
     }
@@ -42,12 +42,12 @@ void DataManager::update_data_and_store_history() {
     json data_obj;
     jsonFile >> data_obj;
 
-    // Obtention de la date et l'heure actuelles
+    // Obtention de la date et de l'heure actuelles
     time_t temps = time(nullptr);
     tm* now = localtime(&temps);
     stringstream chaine_date, chaine_heure;
 
-    //Formatage de la date
+    // Formatage de la date
     chaine_date << setw(4) << setfill('0') << (1900 + now->tm_year) << "-"
                << setw(2) << setfill('0') << (now->tm_mon + 1) << "-"
                << setw(2) << setfill('0') << now->tm_mday;
@@ -59,7 +59,7 @@ void DataManager::update_data_and_store_history() {
                 << setw(2) << setfill('0') << now->tm_sec;
     string heureStr = chaine_heure.str();
 
-    // Stock l'horodatage actuel dans le format souhaité
+    // Stocke l'horodatage actuel dans le format souhaité
     string timestamp = dateStr + " " + heureStr;
 
     // Boucle for pour parcourir l'objet data_obj et collecter les données actuelles
@@ -90,42 +90,43 @@ void DataManager::update_data_and_store_history() {
                 historique_disponibilites[element["fields"]["libelle"].get<string>()].erase(
                     historique_disponibilites[element["fields"]["libelle"].get<string>()].begin());
             }
+
+            // Maintenant, limitons également la taille de l'historique dans le fichier JSON
+            string filename = string(dataDirName) + "/" + element["fields"]["libelle"].get<string>() + ".json";
+            json j;
+
+            // Chargement du fichier JSON existant s'il existe
+            if (ifstream(filename)) {
+                ifstream infile(filename);
+                infile >> j;
+                infile.close();
+
+                // Vérifie si le fichier JSON existant a plus de 15 entrées, et si c'est le cas, supprime les plus anciennes
+                if (j.size() > MAX_HISTORY_SIZE) {
+                    j.erase(j.begin(), j.begin() + (j.size() - MAX_HISTORY_SIZE));
+                }
+            }
+
+            // Ajoutez les données actuelles à l'historique existant
+            for (const HistoricalData& data : historique_disponibilites[element["fields"]["libelle"].get<string>()]) {
+                json historicalDataJSON;
+
+                historicalDataJSON["dispo"] = data.dispo;
+                historicalDataJSON["max"] = data.max;
+                historicalDataJSON["timestamp"] = data.timestamp;
+
+                j.push_back(historicalDataJSON); // Ajoute l'objet JSON à l'objet JSON principal
+            }
+
+            // Sauvegarde des données dans le fichier
+            ofstream outfile(filename);
+            outfile << j.dump(4);
+            outfile.close();
         }
-    }
-
-    // Sauvegarde les données actuelles dans le répertoire "Data_parking"
-    for (const auto& entry : historique_disponibilites) {
-        const string& nom_parking = entry.first;
-        const vector<HistoricalData>& parkingData = entry.second;
-
-        string filename = string(dataDirName) + "/" + nom_parking + ".json";
-        json j;
-
-        // Chargement du fichier JSON existant s'il existe
-        if (ifstream(filename)) {
-            ifstream infile(filename);
-            infile >> j;
-            infile.close();
-        }
-
-        //AJoute les données actuelles à l'historique existant
-        for (const HistoricalData& data : parkingData) {
-            json historicalDataJSON;
-
-            historicalDataJSON["dispo"] = data.dispo;
-            historicalDataJSON["max"] = data.max;
-            historicalDataJSON["timestamp"] = data.timestamp;
-
-            j.push_back(historicalDataJSON); // Ajoute l'objet JSON à l'objet JSON principal
-        }
-
-
-        // Sauvegarde des données dans le fichier
-        ofstream outfile(filename);
-        outfile << j.dump(4);
-        outfile.close();
     }
 }
+
+
 void DataManager::collectData() {
     static int increment=1;
     cout<<"Collecte de données numero "<<increment<<" en cours..."<<endl;

@@ -34,7 +34,7 @@ private:
     const string JSON_URL = "https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false";
     const string LOCAL_JSON_FILENAME = "disponibilite_parkings.json";
     const char* dataDirName = "Data_parking";
-    const int MAX_HISTORY_SIZE;
+    const int MAX_HISTORY_SIZE = 13;
     map<string, vector<HistoricalData>> historique_disponibilites;
 
     void download_json();
