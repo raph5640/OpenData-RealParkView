@@ -141,7 +141,7 @@ qemu-system-aarch64 -M virt \
 5. Ajustez les autorisations : `chmod -R 755 /www/`
 6. Modifiez le fichier de configuration de lighttpd : `vi /etc/lighttpd/lighttpd.conf` et ajoutez/modifiez la ligne : `server.document-root = "/www"`
 7. Redémarrez lighttpd : `lighttpd -f /etc/lighttpd/lighttpd.conf`
-8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html`
+8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html -O Images_histograms_QEMU.html`
 
 ## 4. Annexes
 - **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
