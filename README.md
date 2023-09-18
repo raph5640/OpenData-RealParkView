@@ -175,8 +175,9 @@ Ajout ou modification de la ligne :
 ## 7. Redémarrage de lighttpd
 Tuer le processus lighttpd précédent et démarrage du serveur :
 
-`kill -9 [PID]
-lighttpd -f /etc/lighttpd/lighttpd.conf`
+`kill -9 [PID]`
+
+`lighttpd -f /etc/lighttpd/lighttpd.conf`
 
 ## 8. Test de la configuration
 Depuis la machine hôte :
