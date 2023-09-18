@@ -1,62 +1,55 @@
 # OpenData
 
-- Le programme récupère régulièrement des données sur les parkings depuis une URL définie et les sauvegarde localement en tant que fichier JSON.
+## Présentation
 
-- Une fois le fichier téléchargé, le programme extrait des données pertinentes concernant le nom du parking, le nombre de places disponibles et la capacité maximale.
+Le programme permet de visualiser la disponibilité des parkings en temps réel. Il effectue les actions suivantes :
 
-- Il génère un histogramme montrant le pourcentage de disponibilité de tous les parkings.
+- Récupère régulièrement des données depuis une [source](https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/) et les sauvegarde sous forme de fichier JSON.
+  
+- Extraction des données :
+  - Nom du parking
+  - Places disponibles
+  - Capacité maximale
+  
+- Génération d'histogrammes montrant la disponibilité des parkings.
 
-- De plus, pour chaque parking, le programme génère un histogramme montrant le pourcentage de disponibilité et le sauvegarde dans le répertoire **Image_PNG**.
+- Sauvegarde des données : chaque parking a un fichier correspondant dans le répertoire **Data_parkings**.
 
-- Les données de disponibilité de chaque parking sont également sauvegardées dans un fichier JSON dans le répertoire **Data_parkings**.
-
-**Ce programme est conçu pour visualiser la disponibilité des parkings en temps réel, offrant à la fois une vue d'ensemble et des détails spécifiques sur tout les parkings. (Voir documentation du code en ouvrant le fichier doc_Doxygen.html dans un navigateur)**
 ![parking6](https://github.com/raph5640/OpenData/assets/140059828/6d3a7900-30b2-4740-8809-f76cad3799ef)
 
-**Il affiche lors de son lancement en ouvrant un fichier html l'ensemble des graphique de chaque parkings : (voir ci dessous)**
+**Note:** À son lancement, le programme affiche des graphiques pour chaque parking. 
 
 ![parking_html](https://github.com/raph5640/OpenData/assets/140059828/a01701fd-2abb-4656-aa22-c8c67635f6ec)
 
-**Le terminale ce met également en mode Links (Une interface graphique pour visualiser les fichiers générés par le programme pour buildroot)** : 
+De plus, le terminal passe en mode Links pour permettre une visualisation graphique des fichiers générés.
 
 ![parking_html2](https://github.com/raph5640/OpenData/assets/140059828/db29a1ba-13d9-40c3-9828-f56d420e929f)
 
+## Détails Techniques
 
-Sujet choisi : Disponibilité temps réel des parkings MEL
-https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/
+### Source des Données
 
-Deux fichiers sont proposés .json et .csv. 
+- Sujet choisi : [Disponibilité temps réel des parkings MEL](https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/)
+- Formats disponibles : .json et .csv.
+- URL stable pour le fichier .json : [Lien direct](https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false)
 
-1) Utilisation de l'URL stable pour le fichier .json : 
-utiliser cette URL : https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false
+### Méthodologie
 
-2) Téléchargement du fichier à partir de l'URL: 
-On utilise `libcurl` pour télécharger le fichier .json localement.
+- **Téléchargement** : Utilise `libcurl` pour télécharger le fichier .json.
+- **Parsing** : Le fichier .JSON est ensuite parsé pour en extraire les données nécessaires.
+- **Génération du graphique** : Un histogramme est créé à partir des données récupérées, en utilisant la bibliothèque GD.
 
-3) Parser le fichier .JSON
-On parse le fichier pour extraire les données necessaires 
+### Objectif
 
-4) Génération du graphique histogramme
-On génére un graphique a partir des données récupéré dans une structure avec la bibliothèque GD.
+Deux fichiers principaux sont générés :
 
-## OBJECTIF : 
-- Deux fichiers sont généré : 
-
-- **pourcentage_place_disponible.png** qui est un histogramme qui affiche le pourcentage de disponibilité de chaque parking
+1. **pourcentage_place_disponible.png** : Un histogramme montrant la disponibilité de chaque parking.
 
 ![parking5](https://github.com/raph5640/OpenData/assets/140059828/fa265f8f-657a-4e08-ab75-4ef668ea252e)
 
-### Collecte de donnée en temps réel
-
-À chaque exécution du programme prog_qemu ou prog_debian, nous traçons l'évolution du taux de disponibilité de chaque parking à l'aide d'un histogramme. Ce graphique, nommé 'Nom_du_parking_evolution.png', est **actualisé automatiquement toutes les 20 minutes**, reflétant la disponibilité du parking à chaque intervalle dans le repertoire **Image_PNG**
-
-- **'Parking Nouveau Siecle_evolution_taux_disponibilite.png'** : 
+2. **Nom_du_parking_evolution.png** (exemple de nom) : Ce fichier, situé dans le répertoire **Image_PNG**, est mis à jour à chaque exécution du programme et a chaque collecte de donnée pour afficher l'évolution de la disponibilité du parking correspondant.
 
 ![evolution_parking5](https://github.com/raph5640/OpenData/assets/140059828/c0e70f03-a4b7-49dc-be2e-d713b3ba54cd)
-
-- **'Parking LA POSTE_evolution_taux_disponibilite.png'** on voit également les dernieres entrées du fichier .json associé au jeu de donnée du parking LA POSTE :
-
-![parking8](https://github.com/raph5640/OpenData/assets/140059828/77721cb6-0ee1-42ff-b9f8-c020901d05b2)
 
 
 
@@ -82,7 +75,7 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 1. Cloner le dépôt: `git clone https://github.com/raph5640/OpenData.git`
 2. Accéder au répertoire: `cd OpenData/`
 3. Télécharger et installer la dépendance JSON: `git clone https://github.com/nlohmann/json` ou `sudo apt install ljsoncpp`
-4. **Compiler: <span style="color: red; font-weight: bold;">`g++ -o prog_debian main.cpp histogram.cpp datamanager.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`</span>**
+4. **Compiler: `g++ -o prog_debian main.cpp histogram.cpp datamanager.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`**
 5. Exécuter: `./prog_debian`
 
 ### Buildroot avec QEMU:
@@ -94,7 +87,7 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 5. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
 6. Cochez `Enable C++ support`.
 7. Lancez `make`.
-8. **Pour la compilation croisée: <span style="color: red; font-weight: bold;">`~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`</span>**
+8. **Pour la compilation croisée: `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`**
 
 ## 4. Transfert et Exécution sur Buildroot
 
