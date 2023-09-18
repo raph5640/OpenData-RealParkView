@@ -79,7 +79,6 @@ void Histogram::createHistogram(const string& filename, const vector<string>& no
 
 
 void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, const std::string& jsonFilePath) {
-    // Lire les données à partir du fichier JSON
     json data;
     std::ifstream jsonFile(jsonFilePath);
     jsonFile >> data;
@@ -111,6 +110,7 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
     gdImageFill(im, 0, 0, white);
 
     int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte
+    gdImageString(im, gdFontGetSmall(), 10, 10, (unsigned char*)filename.c_str(), black);
 
     for (size_t i = 0; i < availabilityHistory.size(); i++) {
         int availability = availabilityHistory[i];
@@ -147,3 +147,53 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
 
     gdImageDestroy(im);
 }
+
+void Histogram::showGeneratedImages() const {
+    // Chemin du répertoire contenant les images .png générées
+    const std::string path = "Images_PNG/";
+
+    // Nom du fichier HTML à créer
+    const std::string htmlFilename = "Images_histograms.html";
+
+    // Ouvre le fichier pour écrire le HTML
+    ofstream htmlFile(htmlFilename);
+    if (!htmlFile.is_open()) {
+        cerr << "Erreur lors de la création du fichier HTML." << endl;
+        return;
+    }
+
+    // Écri l'en-tête du fichier HTML
+    htmlFile << "<!DOCTYPE html>\n<html>\n<head>\n";
+    htmlFile << "<title>Histogrammes des parkings</title>\n";
+    htmlFile << "</head>\n<body>\n";
+
+    // Ouvre le dossier et lisez chaque fichier
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(path.c_str())) != NULL) {
+        while ((ent = readdir(dir)) != NULL) {
+            std::string filename = ent->d_name;
+
+            // Vérifi si le fichier est une image .png
+            if (filename.size() > 4 && filename.substr(filename.size() - 4) == ".png") {
+                // Ajoute chaque image au fichier HTML
+                htmlFile << "<img src=\"" << path << filename << "\" alt=\"" << filename << "\" style=\"width:100%;margin-top:20px;\">\n";
+            }
+        }
+        closedir(dir);
+    } else {
+        // Impossible d'ouvrir le répertoire
+        perror("");
+        htmlFile.close();
+        return;
+    }
+
+    // Ferme la balise body et html
+    htmlFile << "</body>\n</html>\n";
+    htmlFile.close();
+
+    // Ouvre le fichier HTML avec le navigateur par défaut
+    std::string command = "xdg-open " + htmlFilename;
+    system(command.c_str());
+}
+

@@ -20,6 +20,7 @@
 #include <sys/stat.h>
 #include <ctime>
 #include <iomanip>
+#include <dirent.h>
 //Auteur : Raphael De Oliveira
 using namespace std;
 using json = nlohmann::json;
@@ -43,6 +44,11 @@ public:
      * \param jsonFilePath Chemin vers le fichier JSON contenant les données.
      */
     static void createEvolutionHistogramFromJSON(const std::string& filename, const std::string& jsonFilePath);
+    /**
+     * \brief Affiche les images générées.
+     * Cette fonction génère un fichier HTML contenant toutes les images d'histogrammes créées et l'ouvre dans un navigateur par défaut.
+     */
+    void showGeneratedImages() const;
 
 };
 

@@ -31,7 +31,7 @@ bool createDirectoryIfNotExists(const char* dirname) {
 
 int main() {
     DataManager dataManager;
-
+    Histogram histogram;
     // Création du répertoire "Images_PNG" pour stocker les images générées par le programme
     createDirectoryIfNotExists(dirName);
     createDirectoryIfNotExists(dataDirName);
@@ -55,7 +55,7 @@ int main() {
                 cerr << "Le fichier JSON pour le parking '" << nom << "' n'existe pas." << endl;
             }
         }
-
+        histogram.showGeneratedImages();
         // On attend 10 minutes avant la prochaine collecte
         this_thread::sleep_for(std::chrono::seconds(600));
     }
