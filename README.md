@@ -106,3 +106,72 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 ## 5. Annexes
 
 - **Images** : Des exemples d'images générées peuvent être consultées directement sur le dépôt GitHub dans le repertoire Images_PNG.
+
+# Configuration du serveur Web lighttpd avec Buildroot
+
+## 1. Préparation de l'environnement
+
+**Lancement de la machine virtuelle Buildroot** :
+
+```bash
+qemu-system-aarch64 -M virt \
+-cpu cortex-a57 \
+-nographic \
+-smp 1 \
+-kernel output/images/Image \
+-append "root=/dev/vda console=ttyAMA0" \
+-netdev user,id=eth0,hostfwd=tcp::2222-:22,hostfwd=tcp::8888-:80 -device virtio-net-device,netdev=eth0 \
+-drive file=output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
+-device virtio-blk-device,drive=hd00```
+
+## 2. Problèmes initiaux avec lighttpd
+
+En essayant de lancer lighttpd :
+
+lighttpd -f /etc/lighttpd/lighttpd.conf
+Nous avons rencontré l'erreur indiquant que l'adresse était déjà utilisée.
+
+## 3. Diagnostic du problème
+
+Vérification de l'utilisation du port :
+
+netstat -tuln | grep :80
+lsof -i :80
+
+## 4. Déplacement des fichiers à servir
+
+Création d'un répertoire pour les fichiers du serveur web :
+
+mkdir /www
+Déplacement des fichiers nécessaires vers le nouveau répertoire :
+
+mv /root/Data_parking /www
+mv /root/Images_PNG /www
+mv /root/prog_qemu /www
+mv /root/Images_histograms.html /www
+mv /root/disponibilite_parkings.json /www
+
+## 5. Configuration des autorisations
+
+Modification des autorisations pour assurer l'accès aux fichiers :
+
+chmod -R 755 /www/
+## 6. Configuration de lighttpd
+
+Modification du fichier de configuration de lighttpd pour définir le répertoire racine :
+
+vi /etc/lighttpd/lighttpd.conf
+Ajout ou modification de la ligne :
+
+server.document-root = "/www"
+
+## 7. Redémarrage de lighttpd
+Tuer le processus lighttpd précédent et démarrage du serveur :
+
+kill -9 [PID]
+lighttpd -f /etc/lighttpd/lighttpd.conf
+
+## 8. Test de la configuration
+Depuis la machine hôte :
+
+`wget http://localhost:8888/Images_histograms.html`
