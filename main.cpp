@@ -1,16 +1,24 @@
+/**
+ * @file main.cpp
+ * @brief Programme principal pour la gestion et la visualisation des données de disponibilité des parkings.
+ * @author Raphael De Oliveira
+ */
 #include <iostream>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <thread>
 #include "datamanager.h"
 #include "histogram.h"
-// Auteur : Raphael De Oliveira
 using namespace std;
 const char* dirName = "Images_PNG";
 const char* dataDirName = "Data_parking";
 struct stat info;
 
-// Fonction pour créer un répertoire s'il n'existe pas
+/**
+ * @brief Crée un répertoire s'il n'existe pas.
+ * @param dirname Nom du répertoire à créer.
+ * @return Retourne 'true' si le répertoire est créé ou s'il existe déjà, 'false' sinon.
+ */
 bool createDirectoryIfNotExists(const char* dirname) {
     if (stat(dirname, &info) != 0) {
         cout << "Création du répertoire : " << dirname << endl;
