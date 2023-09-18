@@ -110,6 +110,9 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 
 ## 3. Configuration du serveur Web lighttpd
 
+![serveur_web](https://github.com/raph5640/OpenData/assets/140059828/1808cca4-cc74-4514-8a48-d42ec91fe29e)
+
+
 1. Démarrez votre machine virtuelle Buildroot : 
 
 `bash
