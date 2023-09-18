@@ -46,7 +46,8 @@ Deux fichiers principaux sont générés :
 
 1. **Taux_dispo_actuel_TOUT_parkings.png** : Un histogramme montrant la disponibilité de chaque parking de la derniere collecte de donnée.
 
-![parking10](https://github.com/raph5640/OpenData/assets/140059828/952fb30a-ab56-4a5b-9118-6c459e64a7f9)
+![parking11](https://github.com/raph5640/OpenData/assets/140059828/10a56e01-b46b-4f86-a431-92f55ce93018)
+
 
 2. **Nom_du_parking_evolution.png** (exemple de nom) : Ce fichier, situé dans le répertoire **Image_PNG**, est mis à jour à chaque exécution du programme et a chaque collecte de donnée pour afficher l'évolution de la disponibilité du parking correspondant.
 
