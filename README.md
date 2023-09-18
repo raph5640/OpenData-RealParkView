@@ -56,6 +56,7 @@ Deux fichiers principaux sont générés :
 # Documentation Technique : OpenData Parking MEL
 
 Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
+Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : `firefox docs/html/index.html`
 
 ## 1. Présentation du projet
 
