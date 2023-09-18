@@ -95,6 +95,7 @@ void Histogram::createHistogram(const string& filename) {
         int bleu = rand() % 255;
         int color = gdImageColorAllocate(im, rouge, vert, bleu);
 
+        int bottom_space = MAX_BAR_HEIGHT - bar_height;
         //Assombrir légèrement la couleur principale
         int darkenedRed = std::max(0, rouge - 30);
         int darkenedGreen = std::max(0, vert - 30);
