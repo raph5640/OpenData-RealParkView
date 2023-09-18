@@ -1,4 +1,5 @@
 /**
+ *
  * @file main.cpp
  * @brief Programme principal pour la gestion et la visualisation des données de disponibilité des parkings.
  * @author Raphael De Oliveira
@@ -7,6 +8,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <thread>
+#include <chrono>
 #include "datamanager.h"
 #include "histogram.h"
 using namespace std;
@@ -65,7 +67,18 @@ int main() {
         }
         histogram.showGeneratedImagesHTML();
         // On attend 10 minutes avant la prochaine collecte
-        this_thread::sleep_for(std::chrono::seconds(600));
+        for (int i = 600; i > 0; --i) {
+            // Calculer les minutes et les secondes restantes
+            int minutes = i / 60;
+            int seconds = i % 60;
+
+            //Efface la ligne précédente dans le terminal (pour que le décompte soit sur la même ligne)
+            cout << "\rProchaine collecte dans " << minutes << " minutes " << seconds << " secondes...    " << flush;
+
+            // Attendre une seconde avant d'afficher le décompte suivant
+            this_thread::sleep_for(std::chrono::seconds(1));
+        }
+        cout << endl;
     }
 
     return 0;
