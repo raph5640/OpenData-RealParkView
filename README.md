@@ -146,5 +146,10 @@ qemu-system-aarch64 -M virt \
 7. Redémarrez lighttpd : `lighttpd -f /etc/lighttpd/lighttpd.conf`
 8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html -O Images_histograms_QEMU.html`
 
+9. Ouvrir dans un navigateur web de votre choix, depuis votre machine hôte (Linux/Debian) **`http://localhost:8888/Images_histograms.html`** :
+
+![serveur_web2](https://github.com/raph5640/OpenData/assets/140059828/b71464a7-57a4-465c-aead-ff7079b04d1d)
+
+
 ## 4. Annexes
 - **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
