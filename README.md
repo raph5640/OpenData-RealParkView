@@ -46,6 +46,10 @@ On génére un graphique a partir des données récupéré dans une structure av
 
 ![evolution_parking5](https://github.com/raph5640/OpenData/assets/140059828/c0e70f03-a4b7-49dc-be2e-d713b3ba54cd)
 
+- **'Parking LA POSTE_evolution_taux_disponibilite.png'** on voit également les dernieres entrées du fichier .json associé au jeu de donnée du parking LA POSTE :
+
+![parking8](https://github.com/raph5640/OpenData/assets/140059828/77721cb6-0ee1-42ff-b9f8-c020901d05b2)
+
 
 
 # Documentation Technique : OpenData Parking MEL
