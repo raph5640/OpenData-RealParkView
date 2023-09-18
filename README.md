@@ -59,6 +59,9 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
 Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : `firefox docs/html/index.html`
 
+![doxygen3](https://github.com/raph5640/OpenData/assets/140059828/cac9bb53-5d9b-4c50-be9f-3d32dedfded6)
+
+
 ## 1. Présentation du projet
 
 - **Fonction principale** : Ce programme vise à récupérer des données en temps réel sur les parkings depuis une URL spécifiée et à les afficher sous forme d'histogrammes. Les histogrammes montrent la disponibilité actuelle des parkings et l'évolution de la disponibilité pour chaque parking.
