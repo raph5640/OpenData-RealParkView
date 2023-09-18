@@ -13,6 +13,7 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
   
 - Génération d'histogrammes montrant la disponibilité des parkings.
 
+![parking12](https://github.com/raph5640/OpenData/assets/140059828/2f6dda29-b636-41e7-a72e-9774dee36b5d)
 
 
 
