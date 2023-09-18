@@ -147,15 +147,15 @@ Création d'un répertoire pour les fichiers du serveur web :
 
 Déplacement des fichiers nécessaires vers le nouveau répertoire :
 
-`mv /root/Data_parking /www
+`mv /root/Data_parking /www`
 
-mv /root/Images_PNG /www
+`mv /root/Images_PNG /www`
 
-mv /root/prog_qemu /www
+`mv /root/prog_qemu /www`
 
-mv /root/Images_histograms.html /www
+`mv /root/Images_histograms.html /www`
 
-mv /root/disponibilite_parkings.json /www`
+`mv /root/disponibilite_parkings.json /www`
 
 ## 5. Configuration des autorisations
 
