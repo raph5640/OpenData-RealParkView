@@ -89,7 +89,8 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
 1. Lancer `make xconfig`
 2. Activez la bibliothèque `libcurl`.
-3. Ajoutez `json-for-modern-cpp` et `libjsoncpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON** 
+3. Activer la bibliotheque `links` (BR2_PACKAGE_LINKS)
+4. Ajoutez `json-for-modern-cpp` et `libjsoncpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON** 
 5. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
 6. Cochez `Enable C++ support`.
 7. Lancez `make`.
