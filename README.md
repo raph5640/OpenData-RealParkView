@@ -88,30 +88,30 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 
 ### Buildroot avec QEMU:
 
-1. Lancer `make xconfig` depuis votre repertoire ou est installé buildroot `cd /home/raphael/buildroot-2023.08`
-2. Activez la bibliothèque `libcurl`.
-3. Activer le serveur web lighttpd (BR2_PACKAGE_LIGHTTPD)
-4. Ajoutez `json-for-modern-cpp` et `libjsoncpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON** 
-5. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
-6. Cochez `Enable C++ support`.
-7. Lancez `make`.
-8. **Pour la compilation croisée: `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`**
+# Configuration de Buildroot et QEMU
 
-## 4. Transfert et Exécution sur Buildroot
+## 1. Configuration de Buildroot
 
-1. Démarrer Buildroot avec `./go` ou `./start_buildroot.sh`.
-2. Transférer prog_emu : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/` (À exécuter depuis Buildroot)
-3. Dans Buildroot, allez à **/root/** et exécutez `./prog_qemu`.
+1. Accédez à votre répertoire Buildroot : `cd /home/raphael/buildroot-2023.08`
+2. Lancez `make xconfig`.
+3. Activez les options suivantes :
+   - `libcurl`
+   - Serveur web `lighttpd` (BR2_PACKAGE_LIGHTTPD)
+   - `json-for-modern-cpp` et `libjsoncpp` (BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON)
+   - Bibliothèque `gd` (BR2_PACKAGE_GD) et `gdtopng`
+   - `Enable C++ support`
+4. Lancez la compilation : `make`.
+5. Pour la compilation croisée : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`
 
-## 5. Annexes
+## 2. Transfert et Exécution sur Buildroot
 
-- **Images** : Des exemples d'images générées peuvent être consultées directement sur le dépôt GitHub dans le repertoire Images_PNG.
+1. Démarrer Buildroot : `./go` ou `./start_buildroot.sh`.
+2. Transférez `prog_qemu` sur Buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
+3. Dans Buildroot, naviguez vers `/root/` et exécutez : `./prog_qemu`.
 
-# Configuration du serveur Web lighttpd avec Buildroot
+## 3. Configuration du serveur Web lighttpd
 
-## 1. Préparation de l'environnement
-
-**Lancement de la machine virtuelle Buildroot** :
+1. Démarrez votre machine virtuelle Buildroot : 
 
 `bash
 qemu-system-aarch64 -M virt \
@@ -124,28 +124,10 @@ qemu-system-aarch64 -M virt \
 -drive file=output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
 -device virtio-blk-device,drive=hd00`
 
-## 2. Problèmes initiaux avec lighttpd
 
-Essayez de démarrer lighttpd avec la commande : `lighttpd -f /etc/lighttpd/lighttpd.conf`. Si tout se passe bien, lighttpd devrait démarrer sans erreurs.
-
-
-
-Nous avons rencontré l'erreur indiquant que l'adresse était déjà utilisée.
-
-## 3. Diagnostic du problème
-
-Vérification de l'utilisation du port :
-
-`netstat -tuln | grep :80
-lsof -i :80`
-
-## 4. Déplacement des fichiers à servir
-
-Création d'un répertoire pour les fichiers du serveur web :
-
-`mkdir /www`
-
-Déplacement des fichiers nécessaires vers le nouveau répertoire :
+2. Lancez `lighttpd` : `lighttpd -f /etc/lighttpd/lighttpd.conf`
+3. Créez un répertoire pour les fichiers web : `mkdir /www`
+4. Déplacez les fichiers nécessaires :
 
 `mv /root/Data_parking /www`
 
@@ -157,29 +139,10 @@ Déplacement des fichiers nécessaires vers le nouveau répertoire :
 
 `mv /root/disponibilite_parkings.json /www`
 
-## 5. Configuration des autorisations
+5. Ajustez les autorisations : `chmod -R 755 /www/`
+6. Modifiez le fichier de configuration de lighttpd : `vi /etc/lighttpd/lighttpd.conf` et ajoutez/modifiez la ligne : `server.document-root = "/www"`
+7. Redémarrez lighttpd : `lighttpd -f /etc/lighttpd/lighttpd.conf`
+8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html`
 
-Modification des autorisations pour assurer l'accès aux fichiers :
-
-`chmod -R 755 /www/`
-
-## 6. Configuration de lighttpd
-
-Modification du fichier de configuration de lighttpd pour définir le répertoire racine :
-
-`vi /etc/lighttpd/lighttpd.conf`
-Ajout ou modification de la ligne :
-
-**server.document-root = "/www"**
-
-## 7. Redémarrage de lighttpd
-Tuer le processus lighttpd précédent et démarrage du serveur :
-
-`kill -9 [PID]`
-
-`lighttpd -f /etc/lighttpd/lighttpd.conf`
-
-## 8. Test de la configuration
-Depuis la machine hôte :
-
-`wget http://localhost:8888/Images_histograms.html`
+## 4. Annexes
+- **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
