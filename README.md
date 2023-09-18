@@ -82,7 +82,7 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 1. Cloner le dépôt: `git clone https://github.com/raph5640/OpenData.git`
 2. Accéder au répertoire: `cd OpenData/`
 3. Télécharger et installer la dépendance JSON: `git clone https://github.com/nlohmann/json` ou `sudo apt install ljsoncpp`
-4. Compiler: `g++ -o prog_debian main.cpp histogram.cpp datamanager.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`
+4. **Compiler: <span style="color: red; font-weight: bold;">`g++ -o prog_debian main.cpp histogram.cpp datamanager.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`</span>**
 5. Exécuter: `./prog_debian`
 
 ### Buildroot avec QEMU:
@@ -94,7 +94,7 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 5. Intégrez la bibliothèque `gd` : **BR2_PACKAGE_GD** et activez `gdtopng`.
 6. Cochez `Enable C++ support`.
 7. Lancez `make`.
-8. Pour la compilation croisée: `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`
+8. **Pour la compilation croisée: <span style="color: red; font-weight: bold;">`~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`</span>**
 
 ## 4. Transfert et Exécution sur Buildroot
 
