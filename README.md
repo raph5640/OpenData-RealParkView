@@ -86,7 +86,6 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 4. **Compiler: `g++ -o prog_debian main.cpp histogram.cpp datamanager.cpp -lgd -lcurl -ljsoncpp -I/home/raphael/json/include`**
 5. Exécuter: `./prog_debian`
 
-### Buildroot avec QEMU:
 
 # Configuration de Buildroot et QEMU
 
