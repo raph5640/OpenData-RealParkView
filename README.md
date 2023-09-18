@@ -87,7 +87,7 @@ Executer cette commande : `git clone https://github.com/raph5640/OpenData.git`
 
 ### Buildroot avec QEMU:
 
-1. Lancer `make xconfig`
+1. Lancer `make xconfig` depuis votre repertoire ou est installé buildroot `cd /home/raphael/buildroot-2023.08`
 2. Activez la bibliothèque `libcurl`.
 3. Activer la bibliotheque `links` (BR2_PACKAGE_LINKS)
 4. Ajoutez `json-for-modern-cpp` et `libjsoncpp` avec le flag : **BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON** 
