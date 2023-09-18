@@ -13,6 +13,10 @@
 **Ce programme est conçu pour visualiser la disponibilité des parkings en temps réel, offrant à la fois une vue d'ensemble et des détails spécifiques sur tout les parkings. (Voir documentation du code en ouvrant le fichier doc_Doxygen.html dans un navigateur)**
 ![parking6](https://github.com/raph5640/OpenData/assets/140059828/6d3a7900-30b2-4740-8809-f76cad3799ef)
 
+**Il affiche lors de son lancement en ouvrant un fichier html l'ensemble des graphique de chaque parkings : (voir ci dessous)**
+
+![parking_html](https://github.com/raph5640/OpenData/assets/140059828/a01701fd-2abb-4656-aa22-c8c67635f6ec)
+
 
 Sujet choisi : Disponibilité temps réel des parkings MEL
 https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/
