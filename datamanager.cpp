@@ -1,5 +1,5 @@
 #include "datamanager.h"
-
+//author Raphael De Oliveira
 using namespace std;
 namespace fs = std::filesystem;
 
@@ -8,7 +8,7 @@ DataManager::DataManager() : MAX_HISTORY_SIZE(13) {
         fs::create_directory(dataDirName);
     }
 }
-
+//ecris les donnée au fur et a mesure que le serveur envois les données
 size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE* ptr_fichier_ecriture) {
     size_t written = fwrite(ptr_donnee_recu, size, nombre_elem, ptr_fichier_ecriture);
     return written;
@@ -91,7 +91,7 @@ void DataManager::update_data_and_store_history() {
                     historique_disponibilites[element["fields"]["libelle"].get<string>()].begin());
             }
 
-            // Maintenant, limitons également la taille de l'historique dans le fichier JSON
+            // Maintenant on limite également la taille de l'historique dans le fichier JSON
             string filename = string(dataDirName) + "/" + element["fields"]["libelle"].get<string>() + ".json";
             json j;
 
@@ -101,13 +101,13 @@ void DataManager::update_data_and_store_history() {
                 infile >> j;
                 infile.close();
 
-                // Vérifie si le fichier JSON existant a plus de 15 entrées, et si c'est le cas, supprime les plus anciennes
+                //On vérifi si le fichier JSON existant a plus de 15 entrées, et si c'est le cas, supprime les plus anciennes
                 if (j.size() > MAX_HISTORY_SIZE) {
                     j.erase(j.begin(), j.begin() + (j.size() - MAX_HISTORY_SIZE));
                 }
             }
 
-            // Ajoutez les données actuelles à l'historique existant
+            // Ajoute les données actuelles à l'historique existant
             for (const HistoricalData& data : historique_disponibilites[element["fields"]["libelle"].get<string>()]) {
                 json historicalDataJSON;
 
