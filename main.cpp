@@ -65,6 +65,7 @@ int main() {
                 cerr << "Le fichier JSON pour le parking '" << nom << "' n'existe pas." << endl;
             }
         }
+        Histogram::createHistogram("Images_PNG/Taux_dispo_actuel_TOUT_parkings.png");
         histogram.showGeneratedImagesHTML();
         // On attend 10 minutes avant la prochaine collecte
         for (int i = 600; i > 0; --i) {

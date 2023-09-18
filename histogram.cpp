@@ -1,6 +1,4 @@
 #include "histogram.h"
-#include <iostream>
-#include <fstream>
 #include <string>
 #include <gd.h>
 #include <nlohmann/json.hpp>
@@ -26,8 +24,44 @@ vector<string> split_into_lines(const string& s) {
     }
     return lines;
 }
+
 // Fonction pour créer un histogramme
-void Histogram::createHistogram(const string& filename, const vector<string>& noms, const vector<int>& dispo, const vector<int>& max) {
+void Histogram::createHistogram(const string& filename) {
+
+    vector<string> noms;
+    vector<int> dispo;
+    vector<int> max;
+
+    // Étape 1: Lire le fichier 'disponibilite_parkings.json'
+    ifstream file("disponibilite_parkings.json");
+    if (file.is_open()) {
+        json j;
+        file >> j;
+
+        for (const auto& parking : j) {
+            if(parking.find("fields") != parking.end()) {
+                auto fields = parking["fields"];
+                if(fields.find("libelle") != fields.end() &&
+                   fields.find("dispo") != fields.end() &&
+                   fields.find("max") != fields.end()) {
+
+                    string nom = fields["libelle"].get<string>();
+                    int dispoValue = fields["dispo"].get<int>();
+                    int maxValue = fields["max"].get<int>();
+
+                    noms.push_back(nom);
+                    dispo.push_back(dispoValue);
+                    max.push_back(maxValue);
+
+                } else {
+                    // Message d'erreur
+                    cerr << "Objet parking malformé: " << parking << endl;
+                }
+            }
+        }
+
+        file.close();
+    }
     const int image_width = 1600;
     const int image_height = 600;
     const int bar_width = image_width / noms.size();
@@ -196,40 +230,4 @@ void Histogram::showGeneratedImagesHTML() const {
     std::string commandXdgOpen = "xdg-open " + htmlFilename;
     system(commandXdgOpen.c_str());
 }
-/*
-void Histogram::showGeneratedImagesOnFramebuffer() const {
-    // Chemin du répertoire contenant les images .png générées
-    const std::string path = "Images_PNG/";
 
-    // Ouvre le framebuffer pour le rendu
-    Framebuffer fb("/dev/fb0");
-
-    // Ouvre le dossier et lisez chaque fichier
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir(path.c_str())) != NULL) {
-        while ((ent = readdir(dir)) != NULL) {
-            std::string filename = ent->d_name;
-
-            // Vérifi si le fichier est une image .png
-            if (filename.size() > 4 && filename.substr(filename.size() - 4) == ".png") {
-                Image img(path + filename);
-
-                // Dessinez l'image sur le framebuffer
-                fb.drawImage(img);
-
-                // Attendre un moment ou une entrée de l'utilisateur avant de passer à l'image suivante
-                // Par exemple, sleep(5); pour attendre 5 secondes
-            }
-        }
-        closedir(dir);
-    } else {
-        // Impossible d'ouvrir le répertoire
-        perror("");
-        return;
-    }
-
-    // Fermer le framebuffer à la fin
-    fb.close();
-}
-*/

@@ -37,7 +37,7 @@ public:
      * \param dispo Valeurs de disponibilité pour chaque barre.
      * \param max Valeurs maximales pour chaque barre.
      */
-    void createHistogram(const std::string& filename, const std::vector<std::string>& noms, const std::vector<int>& dispo, const std::vector<int>& max);
+    static void createHistogram(const string& filename);
     /**
      * \brief Crée un histogramme d'évolution basé sur un fichier JSON.
      * \param filename Nom du fichier dans lequel l'image sera sauvegardée.
