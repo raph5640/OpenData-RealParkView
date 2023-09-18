@@ -126,9 +126,9 @@ qemu-system-aarch64 -M virt \
 
 ## 2. Problèmes initiaux avec lighttpd
 
-En essayant de lancer lighttpd :
+Essayez de démarrer lighttpd avec la commande : `lighttpd -f /etc/lighttpd/lighttpd.conf`. Si tout se passe bien, lighttpd devrait démarrer sans erreurs.
 
-`lighttpd -f /etc/lighttpd/lighttpd.conf`
+
 
 Nous avons rencontré l'erreur indiquant que l'adresse était déjà utilisée.
 
