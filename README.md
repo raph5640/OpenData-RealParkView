@@ -13,7 +13,7 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
   
 - Génération d'histogrammes montrant la disponibilité des parkings.
 
-![parking10](https://github.com/raph5640/OpenData/assets/140059828/952fb30a-ab56-4a5b-9118-6c459e64a7f9)
+
 
 
 - Sauvegarde des données : chaque parking a un fichier .json correspondant dans le répertoire **Data_parkings** contenant un maximum de 13 entrées sauvegardant les 13 dernieres collectes de données (Places_Dispo/Places_Max/Data et heure de la collecte).
@@ -44,9 +44,9 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
 
 Deux fichiers principaux sont générés :
 
-1. **pourcentage_place_disponible.png** : Un histogramme montrant la disponibilité de chaque parking.
+1. **Taux_dispo_actuel_TOUT_parkings.png** : Un histogramme montrant la disponibilité de chaque parking de la derniere collecte de donnée.
 
-![parking5](https://github.com/raph5640/OpenData/assets/140059828/fa265f8f-657a-4e08-ab75-4ef668ea252e)
+![parking10](https://github.com/raph5640/OpenData/assets/140059828/952fb30a-ab56-4a5b-9118-6c459e64a7f9)
 
 2. **Nom_du_parking_evolution.png** (exemple de nom) : Ce fichier, situé dans le répertoire **Image_PNG**, est mis à jour à chaque exécution du programme et a chaque collecte de donnée pour afficher l'évolution de la disponibilité du parking correspondant.
 
