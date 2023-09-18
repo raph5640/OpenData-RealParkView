@@ -21,10 +21,6 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
 
 ![parking_html](https://github.com/raph5640/OpenData/assets/140059828/a01701fd-2abb-4656-aa22-c8c67635f6ec)
 
-De plus, le terminal passe en mode Links pour permettre une visualisation graphique des fichiers générés.
-
-![parking_html2](https://github.com/raph5640/OpenData/assets/140059828/db29a1ba-13d9-40c3-9828-f56d420e929f)
-
 ## Détails Techniques
 
 ### Source des Données
