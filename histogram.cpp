@@ -193,7 +193,11 @@ void Histogram::showGeneratedImages() const {
     htmlFile.close();
 
     // Ouvre le fichier HTML avec le navigateur par défaut
-    std::string command = "xdg-open " + htmlFilename;
-    system(command.c_str());
+    std::string commandXdgOpen = "xdg-open " + htmlFilename;
+    system(commandXdgOpen.c_str());
+
+    // Ouvre le fichier HTML avec le navigateur links
+    std::string commandLinks = "links " + htmlFilename;
+    system(commandLinks.c_str());
 }
 
