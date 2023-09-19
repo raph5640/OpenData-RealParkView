@@ -32,7 +32,7 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
 ### Source des Données
 
 - Sujet choisi : [Disponibilité temps réel des parkings MEL](https://www.data.gouv.fr/fr/datasets/disponibilite-temps-reel-des-parkings-mel/)
-- Formats disponibles : .json et .csv.
+- Formats disponibles : .json
 - URL stable pour le fichier .json : [Lien direct](https://opendata.lillemetropole.fr//explore/dataset/disponibilite-parkings/download?format=json&timezone=Europe/Berlin&use_labels_for_header=false)
 
 ### Méthodologie
