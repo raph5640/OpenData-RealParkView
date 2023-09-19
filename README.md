@@ -143,5 +143,49 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 3) si l'image dépasse la résolution defini par QEMU faites un `convert Taux_dispo_actuel_TOUT_parkings.png -resize 978x600! Taux_dispo_actuel_TOUT_parkings_resized.png` pour redefinir les dimensions de votre images.
   - Pour utiliser convert il faut activer avant dans `make xconfig` -> `ImageMagick`
 
-## 4. Annexes
+## 4. Configuration du serveur Web lighttpd (Si vous voulez afficher le contenu généré par prog_qemu de votre machine buildroot dans un navigateur depuis votre machine hote)
+
+![serveur_web](https://github.com/raph5640/OpenData/assets/140059828/1808cca4-cc74-4514-8a48-d42ec91fe29e)
+
+
+1. Démarrez votre machine virtuelle Buildroot : 
+
+`bash
+qemu-system-aarch64 -M virt \
+-cpu cortex-a57 \
+-nographic \
+-smp 1 \
+-kernel output/images/Image \
+-append "root=/dev/vda console=ttyAMA0" \
+-netdev user,id=eth0,hostfwd=tcp::2222-:22,hostfwd=tcp::8888-:80 -device virtio-net-device,netdev=eth0 \
+-drive file=output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
+-device virtio-blk-device,drive=hd00`
+
+
+2. Lancez `lighttpd` : `lighttpd -f /etc/lighttpd/lighttpd.conf` (Activer le avec un make xconfig avant)
+3. Créez un répertoire pour les fichiers web : `mkdir /www`
+4. Déplacez les fichiers nécessaires :
+
+`mv /root/Data_parking /www`
+
+`mv /root/Images_PNG /www`
+
+`mv /root/prog_qemu /www`
+
+`mv /root/Images_histograms.html /www`
+
+`mv /root/disponibilite_parkings.json /www`
+
+5. Ajustez les autorisations : `chmod -R 755 /www/`
+6. Modifiez le fichier de configuration de lighttpd : `vi /etc/lighttpd/lighttpd.conf` et ajoutez/modifiez la ligne : `server.document-root = "/www"`
+7. Redémarrez lighttpd : `lighttpd -f /etc/lighttpd/lighttpd.conf`
+8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html -O Images_histograms_QEMU.html`
+
+9. Ouvrir dans un navigateur web de votre choix, depuis votre machine hôte (Linux/Debian) **`http://localhost:8888/Images_histograms.html`** :
+
+![serveur_web2](https://github.com/raph5640/OpenData/assets/140059828/b71464a7-57a4-465c-aead-ff7079b04d1d)
+
+## 5. Annexes
 - **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
+
+
