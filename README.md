@@ -108,48 +108,24 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 2. Transférez `prog_qemu` sur Buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 3. Dans Buildroot, naviguez vers `/root/` et exécutez : `./prog_qemu`.
 
-## 3. Configuration du serveur Web lighttpd
+## 3. Affichage avec Framebuffer
 
-![serveur_web](https://github.com/raph5640/OpenData/assets/140059828/1808cca4-cc74-4514-8a48-d42ec91fe29e)
+1. Démarrez votre machine virtuelle Buildroot en utilisant le framebuffer :
+`#! /bin/sh
+#author Raphael De Oliveira
 
-
-1. Démarrez votre machine virtuelle Buildroot : 
-
-`bash
 qemu-system-aarch64 -M virt \
 -cpu cortex-a57 \
--nographic \
 -smp 1 \
 -kernel output/images/Image \
 -append "root=/dev/vda console=ttyAMA0" \
 -netdev user,id=eth0,hostfwd=tcp::2222-:22,hostfwd=tcp::8888-:80 -device virtio-net-device,netdev=eth0 \
 -drive file=output/images/rootfs.ext4,if=none,format=raw,id=hd0 \
--device virtio-blk-device,drive=hd00`
-
-
-2. Lancez `lighttpd` : `lighttpd -f /etc/lighttpd/lighttpd.conf`
-3. Créez un répertoire pour les fichiers web : `mkdir /www`
-4. Déplacez les fichiers nécessaires :
-
-`mv /root/Data_parking /www`
-
-`mv /root/Images_PNG /www`
-
-`mv /root/prog_qemu /www`
-
-`mv /root/Images_histograms.html /www`
-
-`mv /root/disponibilite_parkings.json /www`
-
-5. Ajustez les autorisations : `chmod -R 755 /www/`
-6. Modifiez le fichier de configuration de lighttpd : `vi /etc/lighttpd/lighttpd.conf` et ajoutez/modifiez la ligne : `server.document-root = "/www"`
-7. Redémarrez lighttpd : `lighttpd -f /etc/lighttpd/lighttpd.conf`
-8. Testez depuis la machine hôte : `wget http://localhost:8888/Images_histograms.html -O Images_histograms_QEMU.html`
-
-9. Ouvrir dans un navigateur web de votre choix, depuis votre machine hôte (Linux/Debian) **`http://localhost:8888/Images_histograms.html`** :
-
-![serveur_web2](https://github.com/raph5640/OpenData/assets/140059828/b71464a7-57a4-465c-aead-ff7079b04d1d)
-
+-device virtio-blk-device,drive=hd0 \
+-device virtio-gpu-pci \
+-usb \
+-device nec-usb-xhci \
+-device usb-tablet`
 
 ## 4. Annexes
 - **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
