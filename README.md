@@ -111,6 +111,9 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 2. Transférez `prog_qemu` sur Buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 3. Dans Buildroot, naviguez vers `/root/` et exécutez : `./prog_qemu`.
 
+![QEMU_PROGRAMME](https://github.com/raph5640/OpenData/assets/140059828/443baad3-0b4f-4494-b402-5ad1607eaedb)
+
+
 ## 3. Affichage avec Framebuffer
 
 1. Démarrez votre machine virtuelle Buildroot en utilisant le framebuffer dans votre shellscript de démarrage `./start_VM.sh` :
