@@ -223,12 +223,12 @@ void Histogram::showGeneratedImagesHTML() const {
         return;
     }
 
-    // Écri l'en-tête du fichier HTML
+    // Écris l'en-tête du fichier HTML
     htmlFile << "<!DOCTYPE html>\n<html>\n<head>\n";
     htmlFile << "<title>Histogrammes des parkings</title>\n";
     htmlFile << "</head>\n<body>\n";
 
-    // Ouvre le dossier et lisez chaque fichier
+    //On Ouvre le dossier et lisez chaque fichier
     DIR *dir;
     struct dirent *ent;
     if ((dir = opendir(path.c_str())) != NULL) {
