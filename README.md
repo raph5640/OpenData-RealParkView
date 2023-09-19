@@ -113,20 +113,34 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 1. Démarrez votre machine virtuelle Buildroot en utilisant le framebuffer :
 
 `#! /bin/sh`
+
 `#author Raphael De Oliveira`
 
+
 `qemu-system-aarch64 -M virt \`
+
 `-cpu cortex-a57 \`
+
 `-smp 1 \`
+
 `-kernel output/images/Image \`
+
 `-append "root=/dev/vda console=ttyAMA0" \`
+
 `-netdev user,id=eth0,hostfwd=tcp::2222-:22,hostfwd=tcp::8888-:80 -device virtio-net-device,netdev=eth0 \`
+
 `-drive file=output/images/rootfs.ext4,if=none,format=raw,id=hd0 \`
+
 `-device virtio-blk-device,drive=hd0 \`
+
 `-device virtio-gpu-pci \`
+
 `-usb \`
+
 `-device nec-usb-xhci \`
+
 `-device usb-tablet`
+
 
 ## 4. Annexes
 - **Images** : Consultez les images exemple sur GitHub dans le répertoire `Images_PNG`.
