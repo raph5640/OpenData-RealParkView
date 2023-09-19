@@ -15,15 +15,40 @@
 using namespace std;
 //Auteur : Raphael De Oliveira
 
-vector<string> split_into_lines(const string& s) {
-    istringstream iss(s);
+vector<string> split_into_lines(const string& s, int max_width, gdFontPtr font) {
     vector<string> lines;
-    string line;
-    while (getline(iss, line)) {
-        lines.push_back(line);
+
+    // Calcule le nombre maximum de caractères par ligne
+    int max_chars = max_width / font->w;
+    int start = 0;
+
+    while (start < s.size()) {
+        int end = start + max_chars;
+
+        // Si nous sommes à la fin de la chaîne ou si nous trouvons un espace pour diviser
+        if (end >= s.size() || s[end] == ' ' || end - start < max_chars) {
+            lines.push_back(s.substr(start, end - start));
+            start = end + 1; // +1 pour sauter l'espace
+        } else {
+            //Sinon, remonte pour trouver le dernier espace
+            while (end > start && s[end] != ' ') {
+                --end;
+            }
+            if (end == start) { // si aucun espace n'a été trouvé, on divise le mot
+                end = start + max_chars;
+                lines.push_back(s.substr(start, end - start));
+                start = end;
+            } else {
+                lines.push_back(s.substr(start, end - start));
+                start = end + 1; // +1 pour sauter l'espace
+            }
+        }
     }
+
     return lines;
 }
+
+
 
 // Fonction pour créer un histogramme
 void Histogram::createHistogram(const string& filename) {
@@ -62,6 +87,8 @@ void Histogram::createHistogram(const string& filename) {
 
         file.close();
     }
+
+
     const int image_width = 1600;
     const int image_height = 600;
     const int bar_width = image_width / noms.size();
@@ -101,7 +128,8 @@ void Histogram::createHistogram(const string& filename) {
             gdImageString(im, gdFontGetSmall(), i * bar_width + (bar_width - gdFontGetSmall()->w * percentageLabel.length()) / 2, image_height - bar_height - 15, (unsigned char*)percentageLabel.c_str(), black);
 
             //Dessine le nom du parking en cascade en utilisant split_into_lines
-            auto lines = split_into_lines(noms[i]);
+            auto lines = split_into_lines(noms[i], bar_width, gdFontGetSmall());
+            std::reverse(lines.begin(), lines.end());
             int offsetY = 0;
             for (const auto& line : lines) {
                 gdImageString(im, gdFontGetSmall(), i * bar_width + (bar_width - gdFontGetSmall()->w * line.length()) / 2, image_height - bar_height - 30 - offsetY, (unsigned char*)line.c_str(), black);
