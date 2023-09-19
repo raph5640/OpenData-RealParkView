@@ -137,6 +137,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 `-device nec-usb-xhci \`
 `-device usb-tablet`
 
+1) exécutez : `fbset -g 1600 600 1600 600 32`
 1) Vous pouvez utiliser la commande : `fbv Taux_dispo_actuel_TOUT_parkings.png` pour afficher l'image maintenant.
 2) Pour connaitre les dimensions de votre frambuffer utiliser : `fbset`
 3) si l'image dépasse la résolution defini par QEMU faites un `convert Taux_dispo_actuel_TOUT_parkings.png -resize 978x600! Taux_dispo_actuel_TOUT_parkings_resized.png` pour redefinir les dimensions de votre images.
