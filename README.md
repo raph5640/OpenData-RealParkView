@@ -110,6 +110,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 1. Démarrer Buildroot : `./go` ou `./start_buildroot.sh`.
 2. Transférez `prog_qemu` sur Buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 3. Dans Buildroot, naviguez vers `/root/` et exécutez : `./prog_qemu`.
+4. Le programme est en mesure d'afficher le taux de disponibilité de chaques parking lors de la collecte de donnée sur le terminale.
 
 ![TERMINALESHOOOW](https://github.com/raph5640/OpenData/assets/140059828/43f897af-fae4-42ed-84b4-77ebdff95601)
 
