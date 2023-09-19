@@ -49,6 +49,7 @@ public:
      * Cette fonction génère un fichier HTML contenant toutes les images d'histogrammes créées et l'ouvre dans un navigateur par défaut.
      */
     void showGeneratedImagesHTML() const;
+    void showTerminalHistogram();
 
 };
 

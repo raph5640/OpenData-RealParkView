@@ -66,6 +66,7 @@ int main() {
             }
         }
         Histogram::createHistogram("Images_PNG/Taux_dispo_actuel_TOUT_parkings.png");
+        histogram.showTerminalHistogram();
         histogram.showGeneratedImagesHTML();
         // On attend 10 minutes avant la prochaine collecte
         for (int i = 600; i > 0; --i) {

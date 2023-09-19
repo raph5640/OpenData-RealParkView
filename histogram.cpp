@@ -246,3 +246,49 @@ void Histogram::showGeneratedImagesHTML() const {
     system(commandXdgOpen.c_str());
 }
 
+void Histogram::showTerminalHistogram() {
+    vector<string> noms;
+    vector<int> dispo;
+    vector<int> max;
+
+    // Étape 1: Lire le fichier 'disponibilite_parkings.json'
+    ifstream file("disponibilite_parkings.json");
+    if (file.is_open()) {
+        json j;
+        file >> j;
+
+        for (const auto& parking : j) {
+            if(parking.find("fields") != parking.end()) {
+                auto fields = parking["fields"];
+                if(fields.find("libelle") != fields.end() &&
+                   fields.find("dispo") != fields.end() &&
+                   fields.find("max") != fields.end()) {
+
+                    string nom = fields["libelle"].get<string>();
+                    int dispoValue = fields["dispo"].get<int>();
+                    int maxValue = fields["max"].get<int>();
+
+                    noms.push_back(nom);
+                    dispo.push_back(dispoValue);
+                    max.push_back(maxValue);
+                }
+            }
+        }
+
+        file.close();
+    }
+
+    // Affiche les histogrammes dans le terminal
+    const int MAX_BAR_LENGTH = 50;  //Nombre maximum de caractères pour représenter 100%
+
+    for (size_t i = 0; i < noms.size(); ++i) {
+        int pourcentage = (100 * dispo[i]) / max[i];
+        int barLength = (MAX_BAR_LENGTH * pourcentage) / 100;
+
+        cout << setw(20) << left << noms[i] << ": ";
+        for (int j = 0; j < barLength; ++j) {
+            cout << "█";  // caractère pour la barre
+        }
+        cout << " " << pourcentage << "%" << endl<<endl;
+    }
+}
