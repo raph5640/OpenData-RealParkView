@@ -95,7 +95,6 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 2. Lancez `make xconfig`.
 3. Activez les options suivantes :
    - `libcurl`
-   - Serveur web `lighttpd` (BR2_PACKAGE_LIGHTTPD) (Optionnel)
    - `json-for-modern-cpp` et `libjsoncpp` (BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON)
    - Bibliothèque `gd` (BR2_PACKAGE_GD) et `gdtopng`
    - `Enable C++ support`
