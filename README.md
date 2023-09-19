@@ -110,7 +110,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 
 ## 3. Affichage avec Framebuffer
 
-1. Démarrez votre machine virtuelle Buildroot en utilisant le framebuffer :
+1. Démarrez votre machine virtuelle Buildroot en utilisant le framebuffer dans votre shellscript de démarrage `./start_VM.sh` :
 
 `#! /bin/sh`
 
