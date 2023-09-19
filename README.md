@@ -11,13 +11,13 @@ Le programme permet de visualiser la disponibilité des parkings en temps réel.
   - Places disponibles
   - Capacité maximale
   
-- Génération d'un histogramme montrant la disponibilité de tout les parkings actuel (Ce graphique est mis a jour lors de chaque collecte de données)
+- **Génération d'un histogramme** montrant la disponibilité de tout les parkings actuel (Ce graphique est mis a jour lors de chaque collecte de données)
 
 ![parking12](https://github.com/raph5640/OpenData/assets/140059828/2f6dda29-b636-41e7-a72e-9774dee36b5d)
 
 
 
-- Sauvegarde des données : chaque parking a un fichier .json correspondant dans le répertoire **Data_parkings** contenant un maximum de 13 entrées sauvegardant les 13 dernieres collectes de données (Places_Dispo/Places_Max/Data et heure de la collecte).
+- **Sauvegarde des données** : chaque parking a un fichier .json correspondant dans le répertoire **Data_parkings** contenant un maximum de 13 entrées sauvegardant les 13 dernieres collectes de données (Places_Dispo/Places_Max/Data et heure de la collecte).
 
 ![parking_data](https://github.com/raph5640/OpenData/assets/140059828/c99bd791-51a2-4e1f-876a-01933edd0b08)
 
