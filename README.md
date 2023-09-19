@@ -143,7 +143,8 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 3) si l'image dépasse la résolution defini par QEMU faites un `convert Taux_dispo_actuel_TOUT_parkings.png -resize 978x600! Taux_dispo_actuel_TOUT_parkings_resized.png` pour redefinir les dimensions de votre images.
   - Pour utiliser convert il faut activer avant dans `make xconfig` -> `ImageMagick`
 
-## 4. Configuration du serveur Web lighttpd (Si vous voulez afficher le contenu généré par prog_qemu de votre machine buildroot dans un navigateur depuis votre machine hote)
+## 4. Affichage avec adresse http, configuration du serveur Web lighttpd
+(Si vous voulez afficher le contenu généré par prog_qemu de votre machine buildroot dans un navigateur depuis votre machine hote)
 
 ![serveur_web](https://github.com/raph5640/OpenData/assets/140059828/1808cca4-cc74-4514-8a48-d42ec91fe29e)
 
