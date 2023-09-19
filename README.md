@@ -95,10 +95,14 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 2. Lancez `make xconfig`.
 3. Activez les options suivantes :
    - `libcurl`
-   - Serveur web `lighttpd` (BR2_PACKAGE_LIGHTTPD)
+   - Serveur web `lighttpd` (BR2_PACKAGE_LIGHTTPD) (Optionnel)
    - `json-for-modern-cpp` et `libjsoncpp` (BR2_PACKAGE_JSON_FOR_MODERN_CPP et BR2_PACKAGE_LIBJSON)
    - Bibliothèque `gd` (BR2_PACKAGE_GD) et `gdtopng`
    - `Enable C++ support`
+   - Faire un `make linux-xconfig` et activez également les options liées au framebuffer :
+     - Support for frame buffer devices (CONFIG_FB)
+     - Frame buffer hardware drivers (sélectionnez le matériel spécifique que vous utilisez)
+     - Virtio GPU driver (CONFIG_DRM_VIRTIO_GPU)
 4. Lancez la compilation : `make`.
 5. Pour la compilation croisée : `~/buildroot-2023.08/output/host/bin/aarch64-buildroot-linux-gnu-g++ ~/OpenData/main.cpp ~/OpenData/histogram.cpp ~/OpenData/datamanager.cpp -o ~/OpenData/prog_qemu -lgd -lcurl -lstdc++fs -ljsoncpp -I/home/raphael/json/include`
 
