@@ -17,8 +17,7 @@ size_t ecrire_data(void* ptr_donnee_recu, size_t size, size_t nombre_elem, FILE*
 void DataManager::download_json() {
     CURL* curl;
     FILE* fichier;
-    CURLcode res;
-
+    CURLcode resultat;
     curl = curl_easy_init();
     if (curl) {
         fichier = fopen(LOCAL_JSON_FILENAME.c_str(), "wb");
@@ -26,9 +25,9 @@ void DataManager::download_json() {
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, ecrire_data);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, fichier);
         curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L); //On ignore la vérification SSL (équivalent de l'option -k)
-        res = curl_easy_perform(curl);
-        if (res != CURLE_OK) {
-            cerr << "Erreur lors du téléchargement avec la librairie cURL: " << curl_easy_strerror(res) << endl;
+        resultat = curl_easy_perform(curl);
+        if (resultat != CURLE_OK) {
+            cerr << "Erreur lors du téléchargement avec la librairie cURL: " << curl_easy_strerror(resultat) << endl;
         }
         curl_easy_cleanup(curl);
         fclose(fichier);
