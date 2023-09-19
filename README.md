@@ -113,6 +113,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 
 ![QEMU_PROGRAMME](https://github.com/raph5640/OpenData/assets/140059828/443baad3-0b4f-4494-b402-5ad1607eaedb)
 
+**Note:** Lorsque votre terminale QEMU s'affiche aller dans le terminale **BarMenu -> Vue -> Activer serial0**.
 
 ## 3. Affichage avec Framebuffer
 
