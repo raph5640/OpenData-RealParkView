@@ -111,7 +111,7 @@ Pour visualiser la documentation **Doxygen** depuis le repertoire `/OpenData` : 
 2. Transférez `prog_qemu` sur Buildroot : `scp raphael@10.0.3.15:/home/raphael/OpenData/prog_qemu /root/`
 3. Dans Buildroot, naviguez vers `/root/` et exécutez : `./prog_qemu`.
 
-![QEMU_PROGRAMME](https://github.com/raph5640/OpenData/assets/140059828/443baad3-0b4f-4494-b402-5ad1607eaedb)
+![TERMINALESHOOOW](https://github.com/raph5640/OpenData/assets/140059828/43f897af-fae4-42ed-84b4-77ebdff95601)
 
 **Note:** Lorsque votre terminale QEMU s'affiche aller dans le terminale **BarMenu -> Vue -> Activer serial0**.
 
