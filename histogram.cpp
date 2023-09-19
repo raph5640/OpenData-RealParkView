@@ -73,17 +73,6 @@ void Histogram::createHistogram(const string& filename) {
 
     int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte
 
-    // Fonction pour diviser une chaîne en lignes en utilisant des espaces comme séparateurs
-    auto split_into_lines = [](const string& s) {
-        istringstream iss(s);
-        vector<string> lines;
-        string line;
-        while (getline(iss, line, ' ')) {
-            lines.push_back(line);
-        }
-        return lines;
-    };
-
     //Dessin des barres de l'histogramme
     for (size_t i = 0; i < dispo.size(); i++) {
         int pourcentage = (100 * dispo[i]) / max[i];
@@ -128,7 +117,6 @@ void Histogram::createHistogram(const string& filename) {
             gdImageFilledRectangle(im, (i + 1) * bar_width - offset, image_height - bar_height - offset + RELIEF_OFFSET, (i + 1) * bar_width - offset + 1, image_height - offset + RELIEF_OFFSET, color_relief);
         }
     }
-
 
     FILE* out = fopen(filename.c_str(), "wb");
     gdImagePng(im, out);
