@@ -41,27 +41,27 @@ void DataManager::update_data_and_store_history() {
     json data_obj;
     jsonFile >> data_obj;
 
-    // Obtention de la date et de l'heure actuelles
+    //Obtention de la date et de l'heure actuelles
     time_t temps = time(nullptr);
     tm* now = localtime(&temps);
     stringstream chaine_date, chaine_heure;
 
-    // Formatage de la date
+    //Formatage de la date
     chaine_date << setw(4) << setfill('0') << (1900 + now->tm_year) << "-"
                << setw(2) << setfill('0') << (now->tm_mon + 1) << "-"
                << setw(2) << setfill('0') << now->tm_mday;
     string dateStr = chaine_date.str();
 
-    // Formatage de l'heure
+    //Formatage de l'heure
     chaine_heure << setw(2) << setfill('0') << now->tm_hour << ":"
                 << setw(2) << setfill('0') << now->tm_min << ":"
                 << setw(2) << setfill('0') << now->tm_sec;
     string heureStr = chaine_heure.str();
 
-    // Stocke l'horodatage actuel dans le format souhaité
+    //Stoque l'horodatage actuel dans le format souhaité
     string timestamp = dateStr + " " + heureStr;
 
-    // Boucle for pour parcourir l'objet data_obj et collecter les données actuelles
+    //Boucle for pour parcourir l'objet data_obj et collecter les données actuelles
     for (auto& element : data_obj) {
         if (element.contains("fields")) {
             json parkingData; // Crée un objet JSON pour stocker les données du parking
@@ -81,16 +81,16 @@ void DataManager::update_data_and_store_history() {
 
             parkingData["timestamp"] = timestamp;
 
-            // Ajout des données du parking à l'historique
+            //Ajoute des données du parking à l'historique
             historique_disponibilites[element["fields"]["libelle"].get<string>()].emplace_back(parkingData);
 
-            // Si le nombre d'entrées dépasse MAX_HISTORY_SIZE, on supprime la plus ancienne
+            //Si le nombre d'entrées dépasse MAX_HISTORY_SIZE, on supprime la plus ancienne
             if (historique_disponibilites[element["fields"]["libelle"].get<string>()].size() > MAX_HISTORY_SIZE) {
                 historique_disponibilites[element["fields"]["libelle"].get<string>()].erase(
                     historique_disponibilites[element["fields"]["libelle"].get<string>()].begin());
             }
 
-            // Maintenant on limite également la taille de l'historique dans le fichier JSON
+            //Maintenant on limite également la taille de l'historique dans le fichier JSON
             string filename = string(dataDirName) + "/" + element["fields"]["libelle"].get<string>() + ".json";
             json j;
 
@@ -101,7 +101,7 @@ void DataManager::update_data_and_store_history() {
                 infile.close();
             }
 
-            // Ajoute les données actuelles à l'historique existant
+            //Ajoute les données actuelles à l'historique existant
             for (const HistoricalData& data : historique_disponibilites[element["fields"]["libelle"].get<string>()]) {
                 json historicalDataJSON;
 
@@ -117,7 +117,7 @@ void DataManager::update_data_and_store_history() {
                 j.erase(j.begin());
             }
 
-            // Sauvegarde des données dans le fichier
+            //sauvegarde des données dans le fichier
             ofstream outfile(filename);
             outfile << j.dump(4);
             outfile.close();

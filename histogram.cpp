@@ -18,14 +18,14 @@ using namespace std;
 vector<string> split_into_lines(const string& s, int max_width, gdFontPtr font) {
     vector<string> lines;
 
-    // Calcule le nombre maximum de caractères par ligne
+    //Calcule le nombre maximum de caractères par ligne
     int max_chars = max_width / font->w;
     int start = 0;
 
     while (start < s.size()) {
         int end = start + max_chars;
 
-        // Si nous sommes à la fin de la chaîne ou si nous trouvons un espace pour diviser
+        //Si nous sommes à la fin de la chaîne ou si nous trouvons un espace pour diviser
         if (end >= s.size() || s[end] == ' ' || end - start < max_chars) {
             lines.push_back(s.substr(start, end - start));
             start = end + 1; // +1 pour sauter l'espace
@@ -34,13 +34,13 @@ vector<string> split_into_lines(const string& s, int max_width, gdFontPtr font) 
             while (end > start && s[end] != ' ') {
                 --end;
             }
-            if (end == start) { // si aucun espace n'a été trouvé, on divise le mot
+            if (end == start) { //si aucun espace n'a été trouvé, on divise le mot
                 end = start + max_chars;
                 lines.push_back(s.substr(start, end - start));
                 start = end;
             } else {
                 lines.push_back(s.substr(start, end - start));
-                start = end + 1; // +1 pour sauter l'espace
+                start = end + 1; //+1 pour sauter l'espace
             }
         }
     }
@@ -79,7 +79,6 @@ void Histogram::createHistogram(const string& filename) {
                     max.push_back(maxValue);
 
                 } else {
-                    // Message d'erreur
                     cerr << "Objet parking malformé: " << parking << endl;
                 }
             }
@@ -98,7 +97,7 @@ void Histogram::createHistogram(const string& filename) {
     int white = gdImageColorAllocate(im, 255, 255, 255);
     gdImageFill(im, 0, 0, white);
 
-    int black = gdImageColorAllocate(im, 0, 0, 0);  // Couleur pour le texte
+    int black = gdImageColorAllocate(im, 0, 0, 0);  //Couleur pour le texte
 
     //Dessin des barres de l'histogramme
     for (size_t i = 0; i < dispo.size(); i++) {
@@ -226,20 +225,20 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
 }
 
 void Histogram::showGeneratedImagesHTML() const {
-    // Chemin du répertoire contenant les images .png générées
+    //Chemin du répertoire contenant les images .png générées
     const std::string path = "Images_PNG/";
 
-    // Nom du fichier HTML à créer
+    //Nom du fichier HTML à créer
     const std::string htmlFilename = "Images_histograms.html";
 
-    // Ouvre le fichier pour écrire le HTML
+    //Ouvre le fichier pour écrire le HTML
     ofstream htmlFile(htmlFilename);
     if (!htmlFile.is_open()) {
         cerr << "Erreur lors de la création du fichier HTML." << endl;
         return;
     }
 
-    // Écris l'en-tête du fichier HTML
+    //Écris l'en-tête du fichier HTML
     htmlFile << "<!DOCTYPE html>\n<html>\n<head>\n";
     htmlFile << "<title>Histogrammes des parkings</title>\n";
     htmlFile << "</head>\n<body>\n";
@@ -251,7 +250,7 @@ void Histogram::showGeneratedImagesHTML() const {
         while ((ent = readdir(dir)) != NULL) {
             std::string filename = ent->d_name;
 
-            // Vérifi si le fichier est une image .png
+            //On Vérifi si le fichier est une image .png
             if (filename.size() > 4 && filename.substr(filename.size() - 4) == ".png") {
                 // Ajoute chaque image au fichier HTML
                 htmlFile << "<img src=\"" << path << filename << "\" alt=\"" << filename << "\" style=\"width:100%;margin-top:20px;\">\n";
@@ -259,17 +258,17 @@ void Histogram::showGeneratedImagesHTML() const {
         }
         closedir(dir);
     } else {
-        // Impossible d'ouvrir le répertoire
+        //Impossible d'ouvrir le répertoire
         perror("");
         htmlFile.close();
         return;
     }
 
-    // Ferme la balise body et html
+    //Ferme la balise body et html
     htmlFile << "</body>\n</html>\n";
     htmlFile.close();
 
-    // Ouvre le fichier HTML avec le navigateur par défaut
+    //Ouvre le fichier HTML avec le navigateur par défaut
     std::string commandXdgOpen = "xdg-open " + htmlFilename;
     system(commandXdgOpen.c_str());
 }
@@ -279,7 +278,7 @@ void Histogram::showTerminalHistogram() {
     vector<int> dispo;
     vector<int> max;
 
-    // Étape 1: Lire le fichier 'disponibilite_parkings.json'
+    //Étape 1: Lire le fichier 'disponibilite_parkings.json'
     ifstream file("disponibilite_parkings.json");
     if (file.is_open()) {
         json j;
@@ -306,7 +305,7 @@ void Histogram::showTerminalHistogram() {
         file.close();
     }
 
-    // Affiche les histogrammes dans le terminal
+    //on affiche les histogrammes dans le terminal
     const int MAX_BAR_LENGTH = 50;  //Nombre maximum de caractères pour représenter 100%
 
     for (size_t i = 0; i < noms.size(); ++i) {
@@ -315,7 +314,7 @@ void Histogram::showTerminalHistogram() {
 
         cout << setw(20) << left << noms[i] << ": ";
         for (int j = 0; j < barLength; ++j) {
-            cout << "█";  // caractère pour la barre
+            cout << "█";
         }
         cout << " " << pourcentage << "%" << endl<<endl;
     }
