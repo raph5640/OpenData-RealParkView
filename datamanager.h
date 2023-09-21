@@ -1,4 +1,4 @@
-/**
+    /**
  * @file datamanager.h
  * \author Raphael De Oliveira
  * @brief Définition de la classe DataManager et la structure HistoricalData pour la gestion des données des parkings.

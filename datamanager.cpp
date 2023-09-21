@@ -101,23 +101,15 @@ void DataManager::update_data_and_store_history() {
                 infile.close();
             }
 
-            //Ajoute les données actuelles à l'historique existant
-            for (const HistoricalData& data : historique_disponibilites[element["fields"]["libelle"].get<string>()]) {
-                json historicalDataJSON;
-
-                historicalDataJSON["dispo"] = data.dispo;
-                historicalDataJSON["max"] = data.max;
-                historicalDataJSON["date"] = data.date;
-
-                j.push_back(historicalDataJSON); // Ajoute l'objet JSON à l'objet JSON principal
-            }
+            // Ajoute les données actuelles de parkingData à l'historique existant
+            j.push_back(parkingData); // Ajoute l'objet JSON à l'objet JSON principal
 
             // Si le nombre d'entrées dépasse MAX_HISTORY_SIZE, on supprime les plus anciennes
             while (j.size() > MAX_HISTORY_SIZE) {
                 j.erase(j.begin());
             }
 
-            //sauvegarde des données dans le fichier
+            // Sauvegarde des données dans le fichier
             ofstream outfile(filename);
             outfile << j.dump(4);
             outfile.close();
