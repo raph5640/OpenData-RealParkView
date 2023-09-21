@@ -59,7 +59,7 @@ void DataManager::update_data_and_store_history() {
     string heureStr = chaine_heure.str();
 
     //Stoque l'horodatage actuel dans le format souhaité
-    string timestamp = dateStr + " " + heureStr;
+    string date = dateStr + " " + heureStr;
 
     //Boucle for pour parcourir l'objet data_obj et collecter les données actuelles
     for (auto& element : data_obj) {
@@ -79,7 +79,7 @@ void DataManager::update_data_and_store_history() {
                 parkingData["max"] = 1;
             }
 
-            parkingData["timestamp"] = timestamp;
+            parkingData["date"] = date;
 
             //Ajoute des données du parking à l'historique
             historique_disponibilites[element["fields"]["libelle"].get<string>()].emplace_back(parkingData);
@@ -107,7 +107,7 @@ void DataManager::update_data_and_store_history() {
 
                 historicalDataJSON["dispo"] = data.dispo;
                 historicalDataJSON["max"] = data.max;
-                historicalDataJSON["timestamp"] = data.timestamp;
+                historicalDataJSON["date"] = data.date;
 
                 j.push_back(historicalDataJSON); // Ajoute l'objet JSON à l'objet JSON principal
             }
@@ -134,7 +134,7 @@ void DataManager::collectData() {
     increment++;
 }
 
-void DataManager::sauvegarder_data_json(const string& nom_parking, const int dispo, const int max, const string& timestamp) {
+void DataManager::sauvegarder_data_json(const string& nom_parking, const int dispo, const int max, const string& date) {
     string filename = string(dataDirName) + "/" + nom_parking + ".json";
     json j;
 
@@ -146,25 +146,25 @@ void DataManager::sauvegarder_data_json(const string& nom_parking, const int dis
 
     j["dispo"] = dispo;
     j["max"] = max;
-    j["timestamp"] = timestamp;
+    j["date"] = date;
 
     ofstream outfile(filename);
     outfile << j.dump(4);
     outfile.close();
 }
 
-string DataManager::generateTimestamp() {
+string DataManager::generatedate() {
     time_t currentTime = time(nullptr);
     tm* currentTm = localtime(&currentTime);
-    stringstream timestamp;
-    timestamp << setw(4) << setfill('0') << (currentTm->tm_year + 1900) << "-"
+    stringstream date;
+    date << setw(4) << setfill('0') << (currentTm->tm_year + 1900) << "-"
               << setw(2) << setfill('0') << (currentTm->tm_mon + 1) << "-"
               << setw(2) << setfill('0') << currentTm->tm_mday << " "
               << setw(2) << setfill('0') << currentTm->tm_hour << ":"
               << setw(2) << setfill('0') << currentTm->tm_min << ":"
               << setw(2) << setfill('0') << currentTm->tm_sec;
 
-    return timestamp.str();
+    return date.str();
 }
 
 vector<string> DataManager::getNoms() const {

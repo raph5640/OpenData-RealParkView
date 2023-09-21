@@ -25,7 +25,7 @@ namespace fs = std::filesystem;
 struct HistoricalData {
     int dispo;
     int max;
-    std::string timestamp;
+    std::string date;
     /**
      * @brief Constructeur à partir d'un objet JSON.
      * @param jsonData Objet JSON contenant les données.
@@ -34,7 +34,7 @@ struct HistoricalData {
         // Extraire les valeurs de l'objet JSON et initialiser les membres de la structure
         dispo = jsonData["dispo"].get<int>();
         max = jsonData["max"].get<int>();
-        timestamp = jsonData["timestamp"].get<std::string>();
+        date = jsonData["date"].get<std::string>();
     }
 };
 /**
@@ -70,14 +70,14 @@ public:
      * @param nom_parking Nom du parking.
      * @param dispo Nombre de places disponibles.
      * @param max Nombre total de places.
-     * @param timestamp Horodatage de l'entrée.
+     * @param date Horodatage de l'entrée.
      */
-    void sauvegarder_data_json(const string& nom_parking, int dispo, int max, const string& timestamp);
+    void sauvegarder_data_json(const string& nom_parking, int dispo, int max, const string& date);
     /**
      * @brief Génère un horodatage courant.
      * @return String représentant l'horodatage.
      */
-    string generateTimestamp();
+    string generatedate();
     /**
      * @brief Renvoie les noms de tous les parkings disponibles.
      * @return Vector des noms des parkings.

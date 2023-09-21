@@ -160,17 +160,17 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
     jsonFile >> data;
     jsonFile.close();
 
-    std::vector<std::string> timestamps;
+    std::vector<std::string> dates;
     std::vector<int> availabilityHistory;
     std::vector<int> maxValues;
 
     for (const auto& item : data) {
-        if (item.contains("dispo") && item.contains("max") && item.contains("timestamp")) {
+        if (item.contains("dispo") && item.contains("max") && item.contains("date")) {
             int availability = item["dispo"].get<int>();
             int maxCapacity = item["max"].get<int>();
-            std::string timestamp = item["timestamp"].get<std::string>();
+            std::string date = item["date"].get<std::string>();
 
-            timestamps.push_back(timestamp);
+            dates.push_back(date);
             availabilityHistory.push_back(availability);
             maxValues.push_back(maxCapacity);
         }
@@ -205,11 +205,11 @@ void Histogram::createEvolutionHistogramFromJSON(const std::string& filename, co
         string label = to_string(pourcentage) + "%";
         gdImageString(im, gdFontGetSmall(), i * bar_width + 5, image_height - bar_height - 15, (unsigned char*)label.c_str(), black);
 
-        string timestamp = timestamps[i];
-        size_t pos = timestamp.find(' ');
+        string date = dates[i];
+        size_t pos = date.find(' ');
         if (pos != string::npos) {
-            string dateStr = timestamp.substr(0, pos);
-            string heureStr = timestamp.substr(pos + 1);
+            string dateStr = date.substr(0, pos);
+            string heureStr = date.substr(pos + 1);
 
             int textOffset = (bar_width - gdFontGetSmall()->w * (dateStr.length() + heureStr.length())) / 2;
             gdImageString(im, gdFontGetSmall(), i * bar_width + textOffset, image_height - 30, (unsigned char*)dateStr.c_str(), black);
